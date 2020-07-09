@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notebook.Configuration\Notebook.Configuration.csproj" />
+    <ProjectReference Include="..\Notebook.Database\Notebook.Database.csproj" />
+    <ProjectReference Include="..\Notebook.Domain\Notebook.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+</Project>
