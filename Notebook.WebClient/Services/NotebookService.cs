@@ -45,6 +45,14 @@ namespace Notebook.WebClient.Services
         }
 
         /// <inheritdoc />
+        public void MarkRecordAsDeleted(long recordId)
+        {
+            var item = GetRecordById(recordId);
+            item.IsComplete = true;
+            UpdateRecord(item);
+        }
+
+        /// <inheritdoc />
         public void UpdateRecord(Record record)
         {
             _context.Records.Remove(record);

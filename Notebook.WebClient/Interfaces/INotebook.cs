@@ -39,5 +39,11 @@ namespace Notebook.WebClient.Interfaces
         /// <param name="recordId">Id of record</param>
         /// <param name="isCompleted">Current status of record</param>
         void MarkRecordAsCompleted(long recordId, bool isCompleted);
+
+        /// <summary>
+        /// Mark record as deleted
+        /// </summary>
+        /// <param name="recordId">Id of record</param>
+        void MarkRecordAsDeleted(long recordId);
     }
 }
