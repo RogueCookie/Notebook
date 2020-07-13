@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Notebook.Domain.Entity
 {
@@ -7,13 +8,15 @@ namespace Notebook.Domain.Entity
     /// </summary>
     public class Contact
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
         public DateTime? BirthDate { get; set; }
         public string OrganizationName { get; set; }
         public string Position { get; set; }
+        public virtual ICollection<ContactInformation> CollectionInformations  { get; set; }
+        public virtual ICollection<RecordsToContacts> RecordsToContacts { get; set; }
+
     }
 }
