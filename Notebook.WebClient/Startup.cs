@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Notebook.Database;
+using Notebook.WebClient.Interfaces;
+using Notebook.WebClient.Services;
 
 namespace Notebook.WebClient
 {
@@ -19,6 +23,16 @@ namespace Notebook.WebClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var schema = Configuration.GetValue<string>("SchemaName");
+
+            services.AddDbContext<NotebookDbContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("NotebookConnection"), x =>
+                        x.MigrationsHistoryTable("_migrations_history", schema))
+                    .UseSnakeCaseNamingConvention());
+
+            services.AddScoped<IContact, ContactService>();
+            services.AddScoped<INotebook, NotebookService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
