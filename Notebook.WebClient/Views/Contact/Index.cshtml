@@ -1,0 +1,33 @@
+﻿@model Notebook.WebClient.Models.ContactPortfolioListModel
+
+@{
+    ViewData["Title"] = "Contacts";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<a class="button-rounded-red" style="margin: 5px" href="/contact/create">Create contact</a>
+<div id="contactIndex">
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp customTable" id="patronIndexTable">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Patronymic</th>
+                <th>Detail Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model.ContactPortfolioModels)
+             {
+                 <tr>
+                     <td>@contact.FirstName</td>
+                     <td>@contact.LastName</td>
+                     <td>@contact.Patronymic</td>
+                     <td><a asp-controller="Contact" asp-action="Detail" asp-route-id="@contact.Id">Contact Information</a></td>
+                 </tr>
+             }
+        </tbody>
+    </table>
+</div>
+
