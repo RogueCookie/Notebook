@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Notebook.Database;
-using Notebook.WebClient.Interfaces;
 using Notebook.WebClient.Services;
 
 namespace Notebook.WebClient
@@ -30,8 +29,8 @@ namespace Notebook.WebClient
                         x.MigrationsHistoryTable("_migrations_history", schema))
                     .UseSnakeCaseNamingConvention());
 
-            services.AddScoped<IContact, ContactService>();
-            services.AddScoped<INotebook, NotebookService>();
+            services.AddScoped<ContactService>();
+            services.AddScoped<NotebookService>();
 
         }
 

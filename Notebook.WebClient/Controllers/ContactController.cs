@@ -1,26 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Notebook.WebClient.Interfaces;
 using Notebook.WebClient.Models;
+using Notebook.WebClient.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Notebook.WebClient.Controllers
 {
     public class ContactController : Controller
     {
         //private readonly ILogger<ContactController> _logger;
-        private readonly IContact _contactService;
+        private readonly ContactService _contactService;
 
-        public ContactController(/*ILogger<ContactController> logger,*/ IContact contactService)
+        public ContactController(/*ILogger<ContactController> logger,*/ ContactService contactService)
         {
             //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _contactService = contactService ?? throw new ArgumentNullException(nameof(contactService));
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var contacts = _contactService.GetAllContacts();
+            var contacts = await _contactService.GetAllContacts();
             var contactModel = contacts.Select(c => new ContactDetailModel
             {
                 Id = c.Id,
@@ -38,9 +38,9 @@ namespace Notebook.WebClient.Controllers
         }
 
 
-        public IActionResult Detail(long contactId)
+        public async Task<IActionResult> Detail(long contactId)
         {
-            var contactRecord = _contactService.GetContactById(contactId);
+            var contactRecord = await _contactService.GetContactById(contactId);
 
             var model = new ContactDetailModel
             {
@@ -62,6 +62,8 @@ namespace Notebook.WebClient.Controllers
             var model = new ContactCreateModel ();
             return View(model);
         }
+
+     
 
     }
 }

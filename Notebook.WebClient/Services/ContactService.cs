@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Notebook.Database;
+using Notebook.Database.Extension;
 using Notebook.Domain.Entity;
-using Notebook.WebClient.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Notebook.WebClient.Services
 {
-    public class ContactService : IContact
+    public class ContactService 
     {
         private readonly NotebookDbContext _context;
         private readonly ILogger<ContactService> _logger;
@@ -20,43 +21,38 @@ namespace Notebook.WebClient.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        /// <inheritdoc />
-        public void Add(Contact newContact)
+        public async Task Add(Contact newContact)
         {
-            _context.Add(newContact);
-            _context.SaveChanges();
+           await  _context.AddAsync(newContact);
+           await  _context.SaveChangesAsync();
         }
 
-        /// <inheritdoc />
-        public void AddContactInformation(ContactInformation newContactInformation)
+        public async Task AddContactInformation(ContactInformation newContactInformation)
         {
-            _context.Add(newContactInformation);
-            _context.SaveChanges();
+            await _context.AddAsync(newContactInformation);
+            await _context.SaveChangesAsync();
         }
 
-        /// <inheritdoc />
-        public Contact GetContactById(long contactId)
+        public async Task<Contact> GetContactById(long contactId)
         {
-            return GetAllContacts()
-                .FirstOrDefault(contact => contact.Id == contactId);
+            return await _context.Contacts
+                .Include(x => x.CollectionInformations)
+                .FirstOrDefaultAsync(contact => contact.Id == contactId);
         }
 
-        /// <inheritdoc />
-        public IEnumerable<Contact> GetAllContacts()
+        public async Task<List<Contact>> GetAllContacts()
         {
-            return _context.Contacts
-                .Include(contactInfo => contactInfo.CollectionInformations)
-                .OrderBy(x => x.FirstName); 
+            return await _context.Contacts
+                .GetOrderedContacts().ToListAsync();
         }
 
-        /// <inheritdoc />
-        public IEnumerable<ContactInformation> GetAllInfoForContact(long contactId)
+        public async Task<List<ContactInformation>> GetAllInfoForContact(long contactId)
         {
-            return _context.ContactInformations
-                .Where(x => x.ContactId == contactId);
+            return await _context.ContactInformations
+                .Where(x => x.ContactId == contactId)
+                .ToListAsync();
         }
 
-        /// <inheritdoc />
         public void RemoveContact(long contactId)
         {
             var contact = _context.Contacts

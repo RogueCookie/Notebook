@@ -241,3 +241,17 @@ for details on configuring this project to bundle and minify static web assets. 
     background: url('/images/notebook.jpeg') bottom left 15% no-repeat #555;
     background-size: 100%;
 }
+
+.borderForName {
+    border: 0;
+    border-bottom: 1px solid;
+    /*color: grey;*/
+    padding: 0;
+    border-radius: 0;
+}
+
+.placeHolderBold {
+    color: black;
+    font-weight: bold;
+    font-size: 18pt;
+}
