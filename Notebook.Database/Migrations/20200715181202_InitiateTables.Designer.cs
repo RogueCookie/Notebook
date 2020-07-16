@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Notebook.Database.Migrations
 {
     [DbContext(typeof(NotebookDbContext))]
-    [Migration("20200712211445_InitTables")]
-    partial class InitTables
+    [Migration("20200715181202_InitiateTables")]
+    partial class InitiateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,6 +104,10 @@ namespace Notebook.Database.Migrations
                         .HasColumnName("id")
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnName("created_at")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnName("end_date")

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Notebook.Database.Migrations
 {
-    public partial class InitTables : Migration
+    public partial class InitiateTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,6 +84,7 @@ namespace Notebook.Database.Migrations
                     place = table.Column<string>(nullable: true),
                     is_deleted = table.Column<bool>(nullable: false),
                     is_complete = table.Column<bool>(nullable: false),
+                    created_at = table.Column<DateTime>(nullable: false),
                     record_type_id = table.Column<long>(nullable: true)
                 },
                 constraints: table =>

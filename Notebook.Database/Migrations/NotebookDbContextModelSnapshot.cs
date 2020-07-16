@@ -103,6 +103,10 @@ namespace Notebook.Database.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnName("created_at")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime?>("EndDate")
                         .HasColumnName("end_date")
                         .HasColumnType("timestamp without time zone");

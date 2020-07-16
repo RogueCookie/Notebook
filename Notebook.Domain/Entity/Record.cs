@@ -12,6 +12,7 @@ namespace Notebook.Domain.Entity
         public string Place { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsComplete { get; set; }
+        public DateTime CreatedAt { get; set; }
         public RecordType RecordType { get; set; }
         public virtual ICollection<RecordsToContacts> RecordsToContacts { get; set; }
     }
