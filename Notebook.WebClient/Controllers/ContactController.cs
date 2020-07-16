@@ -20,7 +20,7 @@ namespace Notebook.WebClient.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var contacts = await _contactService.GetAllContacts();
+            var contacts = await _contactService.GetAllContactsAsync();
             var contactModel = contacts.Select(c => new ContactDetailModel
             {
                 Id = c.Id,
@@ -40,7 +40,7 @@ namespace Notebook.WebClient.Controllers
 
         public async Task<IActionResult> Detail(long contactId)
         {
-            var contactRecord = await _contactService.GetContactById(contactId);
+            var contactRecord = await _contactService.GetContactByIdAsync(contactId);
 
             var model = new ContactDetailModel
             {

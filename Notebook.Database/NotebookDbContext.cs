@@ -8,7 +8,7 @@ namespace Notebook.Database
     public class NotebookDbContext : DbContext
     {
         private readonly string _schemaName;
-        public NotebookDbContext(IConfiguration configuration, DbContextOptions<NotebookDbContext> options) : base(options) 
+        public NotebookDbContext( DbContextOptions<NotebookDbContext> options, IConfiguration configuration) : base(options) 
         {
            _schemaName = configuration.GetValue<string>("SchemaName");
         }
@@ -76,8 +76,6 @@ namespace Notebook.Database
                     Name = "Notes"
                 }
             );
-
-            
 
             base.OnModelCreating(modelBuilder);
         }
