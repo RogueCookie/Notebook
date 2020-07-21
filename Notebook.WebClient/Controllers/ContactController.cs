@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Notebook.Domain.Entity;
 using Notebook.DTO.Models.Request;
+using Notebook.DTO.Models.Response;
 using Notebook.WebClient.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Notebook.Domain.Entity;
 
 namespace Notebook.WebClient.Controllers
 {
@@ -93,10 +94,24 @@ namespace Notebook.WebClient.Controllers
             return View(model);
         }
 
-        //public async Task<IActionResult> CreateContactInformation()
-        //{
-        //    var result = await _contactService.AddContactInformationAsync()
-        //} 
+        [HttpGet]
+        public IActionResult CreateContactInformation()
+        {
+            var model= new ContactInformationModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateContactInformation(ContactInformationModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+             
+            }
+
+            return View(model);
+        }
 
         public async Task<IActionResult> Edit(long contactId)
         {

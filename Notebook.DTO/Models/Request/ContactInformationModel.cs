@@ -10,6 +10,8 @@ namespace Notebook.DTO.Models.Request
         /// <summary>
         /// Phone number of the contact
         /// </summary>
+        [Phone]
+        [Display(Name = "Phone number", Prompt = "8-952-790-64-22")]
         public string PhoneNumber { get; set; }
 
         /// <summary>
@@ -29,15 +31,16 @@ namespace Notebook.DTO.Models.Request
         /// </summary>
         public string Other { get; set; }
 
-       
         /// <summary>
         /// Id of the contact
         /// </summary>
         public long ContactId { get; set; } //TODO do we need it?
-        
+
         /// <summary>
         /// Reference to contact data
         /// </summary>
         public ContactModel Contact { get; set; } //TODO do we need it?
+
+        public string NewContactInfoSerialize { get; set; }
     }
 }

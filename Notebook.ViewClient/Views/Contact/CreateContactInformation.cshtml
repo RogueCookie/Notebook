@@ -1,0 +1,196 @@
+﻿@model Notebook.DTO.Models.Request.ContactInformationModel
+
+@{
+    ViewData["Title"] = "Contact Information";
+}
+
+<div class="jumbotron col-md-12">
+    <div class="row">
+        <form asp-action="CreateContactInformation" class="bold-labels" id="contactInfo">
+            <div class="card">
+                <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Add contact information</h3>
+                <div class="card-body">
+                    <div id="tableContactInfo" class="table-editable">
+                        <span class="table-add float-right mb-3 mr-2">
+                            <a href="#!" class="text-success">
+                                <i class="fas fa-plus fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center" id="addInformationTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Phone number</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Skype</th>
+                                    <th class="text-center">Other</th>
+                                    <th class="text-center">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="d-none">
+                                    <td class="pt-3-half" name="PhoneNumber">
+                                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Enter some description" />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </td>
+                                    <td class="pt-3-half" name="Email">
+                                        <input type="text" asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </td>
+                                    <td class="pt-3-half" name="Skype">
+                                        <input type="text" asp-for="Skype" class="form-control" />
+                                        <span asp-validation-for="Skype" class="text-danger"></span>
+                                    </td>
+                                    <td class="pt-3-half" name="Other">
+                                        <textarea type="text" asp-for="Other" class="form-control"></textarea>
+                                        <span asp-validation-for="Other" class="text-danger"></span>
+                                    </td>
+                                    <td>
+                                        <span class="table-remove">
+                                            <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-md-right py-4">
+                <input type="submit" value="save" class="btn btn-danger btnRadius" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+    //#region Handle functionalaties of tables add/remove
+        function initEditableTable() {
+            $(".table-editable").each(function (i, div) {
+                // find table
+                const table = $(div).find("table");
+
+                // add button
+                const addBtn = $(div).find(".table-add");
+                console.warn(addBtn);
+                addBtn.on("click",
+                    function() {
+                        onTableAddClicked(table);
+                    });
+
+               // buttons for rows
+                table.on('click', '.table-remove', onTableRemoveClicked);
+            });
+        }
+
+         function onTableAddClicked(table) {
+             const clone = table.find('tbody tr.d-none').last().clone(true).removeClass('d-none');
+             console.warn(clone);
+            table.find('tbody').append(clone);
+         }
+
+        function onTableRemoveClicked(e) {
+            $(e.target).parents('tr').detach();
+        }
+
+         function onTableSortUp(e) {
+            const row = $(e.target).parents('tr');  //target can be used instead of this
+            if (row.index() === 1) return;
+
+            row.prev().before(row.get(0));
+         }
+    //#endregion
+
+        //function for outpur Error Message
+        function setErrorMessageForElement(element, message) {
+            console.warn(element[0]);
+            console.warn('setMessage');
+            element.parent().find('span.text-danger').html(message); 
+        }
+
+         //function for output Error Message for two column
+        function setErrorMessageForElement2(element2, message2) {
+            console.warn('setMessage');
+            element2.parent().find('span.text-danger').html(message2); 
+        }
+
+        //handle data from table with one input field      
+        function serilizeData(data, fieldId) {
+            var result = JSON.stringify(data);
+            console.log(result);
+
+            // try to find target input field
+            var field = $("input[name=" + fieldId + "]"); 
+            console.log("field" + field);
+
+            // create a new input field if wasn't found
+            if (field.length == 0) {
+                field = $("<input type='hidden' id='" + fieldId + "' name='" + fieldId + "'/>");  //row "" and parameter '' input html
+                console.log("field when if" + field);
+                $("#contactInfo").append(field);
+            }
+            // set field value with serilized string
+            field.val(result);   // without it don't be sent to the server
+
+            // not necessary operation :P shows in console
+            return field[0];
+        }
+
+
+         //for the second table which handle 2 input rows  also will be work for the last table with two column and option to edit
+        function serilizeDataTableWithSeveralInputColumn(tableId, fieldId) {
+            var completedArraOfObject = [];
+            var hasErrors = false;
+            $('#' + tableId + ' tbody tr:not(.d-none)').each(function () {
+                var field1 = $(this).find('#PhoneNumber');  // object
+                var value1 = field1.val();  // value
+                var field2 = $(this).find('#Email');
+                var value2 = field2.val();
+                var field3 = $(this).find('#Skype');
+                var value3 = field3.val();
+                var field4 = $(this).find('#Other');
+                var value4 = field4.val();
+                if (value1 != '' || value2 != '' || value3 != '' || value4 != '') {
+                    completedArraOfObject.push({ PhoneNumber: value1, Email: value2, Skype: value3, Other: value4 });
+                    console.log(completedArraOfObject[0]);
+                } else  {
+                    hasErrors = true;
+                    if (value1 == '' && value2 == '' && value3 == ''&& value4 == '')
+                    {
+                        setErrorMessageForElement2(field1, "Table template value must be filled at least with one field");
+                    }
+                }
+            });
+            console.warn(completedArraOfObject[0]);
+            serilizeData(completedArraOfObject, fieldId);
+            return hasErrors;
+        }
+
+        $(document).ready(function () {
+            $('#PhoneNumber, #Email, #Skype, #Other').focus(function () {
+                var elementId = $(this).attr('id');
+                $('span[data-valmsg-for="' + elementId + '"]').html('').removeClass('field-validation-error').addClass('field-validation-valid');
+            });
+        });
+
+        //call function
+        $(function () {
+            $("#contactInfo").on("submit", function () {
+                var tableWithSeveralColumnDeleteAndAdd = serilizeDataTableWithSeveralInputColumn("addInformationTable", "@Html.IdFor(m => m.NewContactInfoSerialize)");
+                console.log(tableWithSeveralColumnDeleteAndAdd[0]);
+                if (tableWithSeveralColumnDeleteAndAdd ) {
+                    return false; //stop submit
+                } else {
+                    return true; 
+                }
+            });
+
+            //call the subscription method for all events
+            initEditableTable();
+        });
+
+    </script>
+
+}

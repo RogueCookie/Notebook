@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notebook.DTO\Notebook.DTO.csproj" />
+    <ProjectReference Include="..\Notebook.WebClient\Notebook.WebClient.csproj" />
+  </ItemGroup>
+
+</Project>
