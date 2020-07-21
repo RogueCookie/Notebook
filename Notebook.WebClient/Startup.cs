@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace Notebook.WebClient
 
             services.AddScoped<ContactService>();
             services.AddScoped<NotebookService>();
+            services.AddAutoMapper(typeof(Startup));
 
         }
 

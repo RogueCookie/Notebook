@@ -1,4 +1,4 @@
-﻿@model Notebook.WebClient.Models.ContactPortfolioListModel
+﻿@model Notebook.DTO.Models.Request.ContactPortfolioListModel
 
 @{
     ViewData["Title"] = "Contacts";
@@ -6,7 +6,8 @@
 
 <h3>@ViewBag.Title</h3>
 
-<a class="button-rounded-red" style="margin: 5px" href="/contact/create">Create contact</a>
+<a class="button-rounded-red" style="margin: 5px" href="/Contact/CreateContact">Create contact</a>
+
 <div id="contactIndex">
     <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp customTable" id="patronIndexTable">
         <thead>
@@ -15,6 +16,8 @@
                 <th>Last Name</th>
                 <th>Patronymic</th>
                 <th>Detail Link</th>
+                <th>Edit contact</th>
+                <th>Remove contact</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +28,10 @@
                      <td>@contact.LastName</td>
                      <td>@contact.Patronymic</td>
                      <td><a asp-controller="Contact" asp-action="Detail" asp-route-id="@contact.Id">Contact Information</a></td>
+                     <td><a asp-controller="Contact"asp-action="Edit" asp-route-id="@contact.Id"></a></td>
+                     <td>
+                         <div>@Html.ActionLink("Remove contact", "Remove", "Contact", new { id = contact.Id }, new { @class = "btn btn-danger btnRadius" })</div>
+                     </td>
                  </tr>
              }
         </tbody>

@@ -13,7 +13,7 @@ namespace Notebook.WebClient.Services
     /// <summary>
     /// Manipulation with contact entities
     /// </summary>
-    public class ContactService 
+    public class ContactService
     {
         private readonly NotebookDbContext _context;
         private readonly ILogger<ContactService> _logger;
@@ -40,7 +40,8 @@ namespace Notebook.WebClient.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError($"Cannot add contact with name {newContact.FirstName} with id {newContact.Id}", exception);
+                _logger.LogError($"Cannot add contact with name {newContact.FirstName} with id {newContact.Id}",
+                    exception);
                 throw;
             }
         }
@@ -50,18 +51,20 @@ namespace Notebook.WebClient.Services
         /// </summary>
         /// <param name="newContactInformation">New information entity about contact</param>
         /// <returns>Id of contact to whom was added new information</returns>
-        public async Task<long> AddContactInformationAsync(ContactInformation newContactInformation)      
+        public async Task<long> AddContactInformationAsync(ContactInformation newContactInformation)
         {
             try
             {
                 await _context.AddAsync(newContactInformation);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation($"New information added to contact with name {newContactInformation.Contact.FirstName}");
+                _logger.LogInformation(
+                    $"New information added to contact with name {newContactInformation.Contact.FirstName}");
                 return newContactInformation.ContactId;
             }
             catch (Exception exception)
             {
-                _logger.LogError($"Cannot add information for contact {newContactInformation.Contact.FirstName}", exception);
+                _logger.LogError($"Cannot add information for contact {newContactInformation.Contact.FirstName}",
+                    exception);
                 throw;
             }
         }
@@ -80,18 +83,20 @@ namespace Notebook.WebClient.Services
                     await _context.AddAsync(contactInfo);
                     await _context.SaveChangesAsync();
                 }
-               
+
                 return true;
             }
             catch (Exception exception)
             {
                 foreach (var contactInfo in newContactsInformation)
                 {
-                    _logger.LogError($"Cannot add list information to contact {contactInfo.Contact.FirstName}", exception);
+                    _logger.LogError($"Cannot add list information to contact {contactInfo.Contact.FirstName}",
+                        exception);
                 }
+
                 return false;
             }
-            
+
         }
 
         /// <summary>
@@ -137,15 +142,17 @@ namespace Notebook.WebClient.Services
             try
             {
                 var contact = await _context.Contacts
-                    .Include(info => info.CollectionInformations)// TODo так оно удалит информатин в совокупе?
+                    .Include(info => info.CollectionInformations) // TODo так оно удалит информатин в совокупе?
                     .FirstOrDefaultAsync(x => x.Id == contactId);
 
                 if (contact != null)
                 {
-                    _context.Remove(contact);     
+                    _context.Remove(contact);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation($"Contact with id {contactId} was successfully removed with all correlated contact information");
+                    _logger.LogInformation(
+                        $"Contact with id {contactId} was successfully removed with all correlated contact information");
                 }
+
                 return true;
             }
             catch (Exception exception)
@@ -153,7 +160,53 @@ namespace Notebook.WebClient.Services
                 _logger.LogError($"Cannot remove contact with id {contactId}", exception);
                 return false;
             }
-            
+        }
+
+        /// <summary>
+        /// Get current record contact information
+        /// </summary>
+        /// <param name="contactInfoId">Id of contact information</param>
+        /// <returns>Contact Information entity</returns>
+        public async Task<ContactInformation> GetCurrentContactInformationAsync(long contactInfoId)
+        {
+            try
+            {
+                return await _context.ContactInformations.FirstOrDefaultAsync(x => x.Id == contactInfoId);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Couldn't find information  with id {contactInfoId}", exception);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Remove particular contact information 
+        /// </summary>
+        /// <param name="contInfoId">Id of information record</param>
+        /// <returns>Whether the contact information deleted successfully</returns>
+        public async Task<bool> RemoveCurrentContactInformation(long contInfoId)
+        {
+            try
+            {
+                var currentInformation = await GetCurrentContactInformationAsync(contInfoId);
+                if (currentInformation == null)
+                {
+                    _logger.LogInformation($"Contact information with id {contInfoId} wasn't found");
+                    return false;
+                }
+
+                _context.Remove(currentInformation);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation($"Contact information with Id {contInfoId} for contact {currentInformation.Contact.FirstName} was successfully removed");
+                return true;
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Unable to remove contact information with Id {contInfoId}", exception);
+                return false;
+            }
         }
     }
 }

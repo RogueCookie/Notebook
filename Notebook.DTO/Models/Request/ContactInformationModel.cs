@@ -1,15 +1,12 @@
-﻿namespace Notebook.Domain.Entity
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Notebook.DTO.Models.Request
 {
     /// <summary>
     /// Represents contact information for call
     /// </summary>
-    public class ContactInformation
+    public class ContactInformationModel : ContactModel
     {
-        /// <summary>
-        /// Id of the contact
-        /// </summary>
-        public long Id { get; set; }
-
         /// <summary>
         /// Phone number of the contact
         /// </summary>
@@ -18,6 +15,8 @@
         /// <summary>
         /// Email of the contact
         /// </summary>
+        [EmailAddress]
+        [Display(Name = "Email", Prompt = "example@gmail.com")]
         public string Email { get; set; }
 
         /// <summary>
@@ -30,16 +29,15 @@
         /// </summary>
         public string Other { get; set; }
 
-        //navigation prop
-
+       
         /// <summary>
         /// Id of the contact
         /// </summary>
-        public long ContactId { get; set; }
-
+        public long ContactId { get; set; } //TODO do we need it?
+        
         /// <summary>
         /// Reference to contact data
         /// </summary>
-        public Contact Contact { get; set; }
+        public ContactModel Contact { get; set; } //TODO do we need it?
     }
 }

@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,10 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Notebook.Database\Notebook.Database.csproj" />
     <ProjectReference Include="..\Notebook.Domain\Notebook.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mapping\" />
+    <ProjectReference Include="..\Notebook.DTO\Notebook.DTO.csproj" />
   </ItemGroup>
 
 </Project>

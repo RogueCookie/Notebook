@@ -48,7 +48,7 @@ namespace Notebook.Database
                 .HasForeignKey(s => s.RecordId);
 
             modelBuilder.Entity<RecordType>().HasKey("Id");
-            modelBuilder.Entity<RecordType>().Property(e => e.Allias)
+            modelBuilder.Entity<RecordType>().Property(e => e.Alias)
                 .HasConversion(
                     v => v.ToString(),
                     v => (RecordTypeEnum)System.Enum.Parse(typeof(RecordTypeEnum), v, true));
@@ -57,21 +57,21 @@ namespace Notebook.Database
                 new RecordType
                 {
                     Id = (long)RecordTypeEnum.Deal,
-                    Allias = RecordTypeEnum.Deal,
+                    Alias = RecordTypeEnum.Deal,
                     Description = "Planning deal",
                     Name = "Deal"
                 },
                 new RecordType
                 {
                     Id = (long)RecordTypeEnum.Meeting,
-                    Allias = RecordTypeEnum.Meeting,
+                    Alias = RecordTypeEnum.Meeting,
                     Description = "Planning meeting",
                     Name = "Meeting"
                 },
                 new RecordType
                 {
                     Id = (long)RecordTypeEnum.Notes,
-                    Allias = RecordTypeEnum.Notes,
+                    Alias = RecordTypeEnum.Notes,
                     Description = "Notes",
                     Name = "Notes"
                 }

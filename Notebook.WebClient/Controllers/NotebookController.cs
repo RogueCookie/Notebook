@@ -19,11 +19,11 @@ namespace Notebook.WebClient.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<string>> GetNotes(DateTime? from, DateTime? to)
-        {
-            _notebookService.GetAllNotDeletedRecordsAsync(from, to); 
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<string>> GetNotes(DateTime? from, DateTime? to)
+        //{
+        //    _notebookService.GetAllNotDeletedRecordsAsync(from, to); 
+        //    throw new NotImplementedException();
+        //}
     }
 }
