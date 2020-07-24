@@ -10,6 +10,7 @@ using Notebook.Database;
 using Notebook.WebClient.Services;
 using System;
 using System.Collections.Generic;
+using Notebook.DTO.Mapping;
 
 namespace Notebook.WebClient
 {
@@ -35,7 +36,14 @@ namespace Notebook.WebClient
 
             services.AddScoped<ContactService>();
             services.AddScoped<NotebookService>();
-            services.AddAutoMapper(typeof(Startup));
+            //*services.AddAutoMapper(typeof(Startup));
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             // Register the Swagger generator
             services.AddSwaggerGen(c =>

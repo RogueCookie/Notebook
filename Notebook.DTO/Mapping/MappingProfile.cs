@@ -10,6 +10,10 @@ namespace Notebook.DTO.Mapping
         public MappingProfile()
         {
             CreateMap<ContactCreateModel, Contact>();
+            CreateMap<Contact, ContactCreateModel>();
+
+            CreateMap<NoteModel, Record>();
+            CreateMap<Record, NoteModel>();
         }
     }
 }
