@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Notebook.Domain.Entity;
 using Notebook.DTO.Models.Request;
-using Notebook.DTO.Models.Response;
 using Notebook.WebClient.Services;
 using System;
 using System.Linq;
@@ -11,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Notebook.WebClient.Controllers
 {
+    //[Route("api/v1/[actions]")]
+    ////[Route("api/v1/[controller]")]
+    //[ApiController]
     public class ContactController : Controller
     {
         private readonly ILogger<ContactController> _logger;
@@ -40,10 +42,13 @@ namespace Notebook.WebClient.Controllers
                 ContactPortfolioModels = contactModel
             };
 
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
         [HttpGet]
+        //[HttpGet("{contactId}")]
+
         public async Task<IActionResult> Detail(long contactId)
         {
             var contactInfo = await  _contactService.GetAllInfoForContactAsync(contactId);
@@ -61,14 +66,16 @@ namespace Notebook.WebClient.Controllers
                 ContactDetails = contactModel
             };
 
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
         [HttpGet]
         public IActionResult CreateContact()
         {
             var model = new ContactCreateModel ();
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
         [HttpPost]
@@ -91,14 +98,16 @@ namespace Notebook.WebClient.Controllers
                 return RedirectToAction("Index", "Contact");
             }
 
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
         [HttpGet]
         public IActionResult CreateContactInformation()
         {
             var model= new ContactInformationModel();
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
         [HttpPost]
@@ -110,13 +119,15 @@ namespace Notebook.WebClient.Controllers
              
             }
 
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
         public async Task<IActionResult> Edit(long contactId)
         {
             var contact = await _contactService.GetContactByIdAsync(contactId);
-            return View(contact);
+            return Ok(contact);
+            //return View(contact);
         }
 
         [HttpGet]
@@ -131,8 +142,8 @@ namespace Notebook.WebClient.Controllers
                 Skype = contactInfo.Skype,
                 Other = contactInfo.Other
             };
-
-            return View(model);
+            return Ok(model);
+            //return View(model);
         }
 
 
@@ -165,7 +176,6 @@ namespace Notebook.WebClient.Controllers
             }
 
             return RedirectToAction(nameof(Detail));
-
         }
     }
 }
