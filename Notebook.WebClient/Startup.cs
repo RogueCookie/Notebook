@@ -103,6 +103,7 @@ namespace Notebook.WebClient
             {
                 c.SwaggerEndpoint($"v1/swagger.json", $"Notebook v1");
                 c.DisplayRequestDuration();
+                //c.RoutePrefix = "";//
             });
 
             if (env.IsDevelopment())

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Notebook.Database.Migrations
 {
-    public partial class InitiateTables : Migration
+    public partial class InitTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,7 @@ namespace Notebook.Database.Migrations
                     id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(nullable: true),
-                    allias = table.Column<string>(nullable: false),
+                    alias = table.Column<string>(nullable: false),
                     description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -129,7 +129,7 @@ namespace Notebook.Database.Migrations
             migrationBuilder.InsertData(
                 schema: "notebook",
                 table: "record_types",
-                columns: new[] { "id", "allias", "description", "name" },
+                columns: new[] { "id", "alias", "description", "name" },
                 values: new object[,]
                 {
                     { 3L, "Deal", "Planning deal", "Deal" },

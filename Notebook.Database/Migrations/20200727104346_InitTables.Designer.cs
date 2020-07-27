@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Notebook.Database.Migrations
 {
     [DbContext(typeof(NotebookDbContext))]
-    [Migration("20200715181202_InitiateTables")]
-    partial class InitiateTables
+    [Migration("20200727104346_InitTables")]
+    partial class InitTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,9 +154,9 @@ namespace Notebook.Database.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Allias")
+                    b.Property<string>("Alias")
                         .IsRequired()
-                        .HasColumnName("allias")
+                        .HasColumnName("alias")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
@@ -176,21 +176,21 @@ namespace Notebook.Database.Migrations
                         new
                         {
                             Id = 3L,
-                            Allias = "Deal",
+                            Alias = "Deal",
                             Description = "Planning deal",
                             Name = "Deal"
                         },
                         new
                         {
                             Id = 1L,
-                            Allias = "Meeting",
+                            Alias = "Meeting",
                             Description = "Planning meeting",
                             Name = "Meeting"
                         },
                         new
                         {
                             Id = 2L,
-                            Allias = "Notes",
+                            Alias = "Notes",
                             Description = "Notes",
                             Name = "Notes"
                         });
