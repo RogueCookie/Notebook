@@ -11,7 +11,11 @@ using System.Threading.Tasks;
 namespace Notebook.WebClient.Controllers
 {
     //[Route("api/v1/[actions]")]
-    ////[Route("api/v1/[controller]")]
+    [Route("api/v1/notebook/contact")]
+    [ApiController]
+
+    //[Produces("application/json", "application/xml")]
+    //[Route("api/v{version:apiVersion}/books")]
     //[ApiController]
     public class ContactController : Controller
     {
@@ -46,9 +50,7 @@ namespace Notebook.WebClient.Controllers
             //return View(model);
         }
 
-        [HttpGet]
-        //[HttpGet("{contactId}")]
-
+        [HttpGet("{contactId}")]
         public async Task<IActionResult> Detail(long contactId)
         {
             var contactInfo = await  _contactService.GetAllInfoForContactAsync(contactId);
@@ -70,7 +72,7 @@ namespace Notebook.WebClient.Controllers
             //return View(model);
         }
 
-        [HttpGet]
+       /* [HttpGet]
         public IActionResult CreateContact()
         {
             var model = new ContactCreateModel ();
@@ -176,6 +178,6 @@ namespace Notebook.WebClient.Controllers
             }
 
             return RedirectToAction(nameof(Detail));
-        }
+        }*/
     }
 }

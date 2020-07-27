@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Notebook.Domain.Entity;
+using Notebook.DTO.Models.Request;
 using Notebook.WebClient.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Notebook.Domain.Entity;
-using Notebook.DTO.Models.Request;
+using Microsoft.AspNetCore.Http;
 
 namespace Notebook.WebClient.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/notebook")]
+    //[Produces("application/json", "application/xml")]
+    //[Route("api/v{version:apiVersion}/notes")]
     [ApiController]
     public class NotebookController : Controller
     {
@@ -27,7 +29,9 @@ namespace Notebook.WebClient.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [HttpGet]
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<NoteModel>>> GetNotes(DateTime? from, DateTime? to)
         {
             var allFromService = await _notebookService.GetAllNotDeletedRecordsAsync(from, to);
@@ -39,7 +43,8 @@ namespace Notebook.WebClient.Controllers
         {
             var noteToAdd = _mapper.Map<Record>(model);
             var addedNote = await _notebookService.AddRecordAsync(noteToAdd);
-            var newNote = await _notebookService.GetRecordByIdAsync(addedNote);
+
+            // TODO check result for null
 
             return CreatedAtRoute(
                 "GetNote",
@@ -58,5 +63,24 @@ namespace Notebook.WebClient.Controllers
 
             return Ok(_mapper.Map<NoteModel>(noteFromService));
         }
+
+        [HttpPatch()]
+        //[HttpPost()]
+        public async Task<ActionResult<NoteModel>> UpdateNote(NoteModel recordForUpdate)
+        {
+            var noteFromService = await _notebookService.GetRecordByIdAsync(recordForUpdate.Id);
+            if (noteFromService == null)
+            {
+                return NotFound();
+            }
+
+            var adaptModel = _mapper.Map<Record>(recordForUpdate);
+            //_mapper.Map(noteFromService, recordForUpdate);
+            await _notebookService.UpdateRecordAsync(adaptModel);
+            return Ok(_mapper.Map<NoteModel>(noteFromService));
+        }
+
+
+        
     }
 }

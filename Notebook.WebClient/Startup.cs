@@ -49,7 +49,7 @@ namespace Notebook.WebClient
             services.AddSwaggerGen(c =>
             {
                 // https://localhost:5001/swagger/v1/swagger.json  open API specification available
-                c.SwaggerDoc("v1", new OpenApiInfo
+                c.SwaggerDoc("v1", new OpenApiInfo //part of Url
                 {
                     Version = "v1",
                     Title = "API for work with Notebook",

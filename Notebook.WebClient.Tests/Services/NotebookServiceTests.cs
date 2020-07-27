@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Notebook.Domain.Entity;
+using Notebook.Domain.Enum;
 using Xunit;
 
 namespace Notebook.WebClient.Tests.Services
@@ -98,6 +100,7 @@ namespace Notebook.WebClient.Tests.Services
                 Place = "Kenig",
                 IsComplete = stateBefore
             };
+
             // Arrange 
             await _context.Records.AddAsync(newRecord);
             await  _context.SaveChangesAsync();
@@ -130,13 +133,43 @@ namespace Notebook.WebClient.Tests.Services
             Assert.NotEqual(resultBefore, resultAfter);
         }
 
+        [Fact]
+        public async Task UpdateRecordAsync_WhenUpdate_UpdatedRecordExpected()
+        {
+            // Arrange
+            var initRecord = InitRecord();
+            await _service.AddRecordAsync(initRecord);
+            var newRecord = await _service.GetRecordByIdAsync(initRecord.Id);
+           
+            initRecord.Place = "tyt";
+
+            // Act
+            //_context.Records.UpdateRange(newRecord);
+            //await _context.SaveChangesAsync();
+            var isUpdated = await  _service.UpdateRecordAsync(initRecord);
+            var recordAfter = await _service.GetRecordByIdAsync(initRecord.Id);
+            
+            // Assert
+            Assert.NotEqual(newRecord.Place, recordAfter.Place);
+        }
+
+
+        /// <summary>
+        /// Initiate record in DB for making test
+        /// </summary>
+        /// <returns></returns>
         private static Domain.Entity.Record InitRecord()
         {
             var testRecord = new Domain.Entity.Record()
             {
                 StartDate = DateTime.Now,
+                Theme = "ho-ho-ho",
                 EndDate = DateTime.Now.AddDays(1),
-                Place = "Kenig"
+                Place = "Kenig",
+                RecordType = new RecordType
+                {
+                    Alias = RecordTypeEnum.Meeting
+                }
             };
             return testRecord;
         }

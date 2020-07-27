@@ -5,6 +5,7 @@ using Notebook.Database.Extension;
 using Notebook.Domain.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Notebook.WebClient.Services
@@ -32,8 +33,10 @@ namespace Notebook.WebClient.Services
         {
             try
             {
+                newRecord.CreatedAt = DateTime.Now.Date;
                 await _context.AddAsync(newRecord);
                 await _context.SaveChangesAsync();
+                _logger.LogError($"New record was added with Id {newRecord.Id}");
                 return newRecord.Id;
             }
             catch (Exception exception)
@@ -112,7 +115,29 @@ namespace Notebook.WebClient.Services
                 _logger.LogError($"Cannot delete record with id: {recordId} ", exception);
                 return false;
             }
-           
+        }
+
+        /// <summary>
+        /// Update existing record
+        /// </summary>
+        /// <param name="record">Record entity for updating</param>
+        /// <returns>Whether the entry was successfully updated or not</returns>
+        public async Task<bool> UpdateRecordAsync(Record record)
+        {
+            try
+            {
+                //var recordFromService =  _context.Records.GetNotDeleteRecords().FirstOrDefault(x => x.Id == record.Id);
+                _context.Update(record);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation($"Record with id {record.Id} was successfully updated");
+                return true;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Cannot update record with id: {record.Id} ", exception);
+                return false;
+            }
+            
         }
     }
 }
