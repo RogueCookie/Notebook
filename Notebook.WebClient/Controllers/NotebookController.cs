@@ -29,16 +29,26 @@ namespace Notebook.WebClient.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// Get all notes
+        /// </summary>
+        /// <param name="from">From date</param>
+        /// <param name="to">Till date</param>
+        /// <returns>All not completed and not deleted notes</returns>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        
         public async Task<ActionResult<List<NoteModel>>> GetNotes(DateTime? from, DateTime? to)
         {
             var allFromService = await _notebookService.GetAllNotDeletedRecordsAsync(from, to);
             return Ok(_mapper.Map<List<NoteModel>>(allFromService));
         }
 
+        /// <summary>
+        /// Add a new note
+        /// </summary>
+        /// <param name="model">Entity which will be added</param>
+        /// <returns>An ActionResult of type NoteModel</returns>
         [HttpPost()]
         public async Task<ActionResult<NoteModel>> CreateNote(NoteModel model)
         {
@@ -56,8 +66,8 @@ namespace Notebook.WebClient.Controllers
         /// <summary>
         /// Get particular note by Id
         /// </summary>
-        /// <param name="noteId">Id of note</param>
-        /// <returns>Entity with particular Id</returns>
+        /// <param name="noteId">The id of note you want to get</param>
+        /// <returns>An ActionResult of type NoteModel</returns>
         [HttpGet("{noteId}")]
         public async Task<ActionResult<NoteModel>> GetNote(long noteId)
         {
@@ -70,9 +80,14 @@ namespace Notebook.WebClient.Controllers
             return Ok(_mapper.Map<NoteModel>(noteFromService));
         }
 
+        /// <summary>
+        /// Update particular note
+        /// </summary>
+        /// <param name="recordForUpdate">Entity which need to update</param>
+        /// <returns>An ActionResult of type NoteModel</returns>
         [HttpPatch()]
-        //[HttpPost()]
-        public async Task<ActionResult<NoteModel>> UpdateNote(NoteModel recordForUpdate)
+        //[HttpPost("{noteId}")]
+        public async Task<ActionResult<NoteModel>> UpdateNote(/*long noteId,*/ NoteModel recordForUpdate)
         {
             var noteFromService = await _notebookService.GetRecordByIdAsync(recordForUpdate.Id);
             if (noteFromService == null)

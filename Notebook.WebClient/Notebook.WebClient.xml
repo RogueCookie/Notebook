@@ -4,12 +4,34 @@
         <name>Notebook.WebClient</name>
     </assembly>
     <members>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.GetNotes(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Get all notes
+            </summary>
+            <param name="from">From date</param>
+            <param name="to">Till date</param>
+            <returns>All not completed and not deleted notes</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.CreateNote(Notebook.DTO.Models.Request.NoteModel)">
+            <summary>
+            Add a new note
+            </summary>
+            <param name="model">Entity which will be added</param>
+            <returns>An ActionResult of type NoteModel</returns>
+        </member>
         <member name="M:Notebook.WebClient.Controllers.NotebookController.GetNote(System.Int64)">
             <summary>
             Get particular note by Id
             </summary>
-            <param name="noteId">Id of note</param>
-            <returns>Entity with particular Id</returns>
+            <param name="noteId">The id of note you want to get</param>
+            <returns>An ActionResult of type NoteModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.UpdateNote(Notebook.DTO.Models.Request.NoteModel)">
+            <summary>
+            Update particular note
+            </summary>
+            <param name="recordForUpdate">Entity which need to update</param>
+            <returns>An ActionResult of type NoteModel</returns>
         </member>
         <member name="T:Notebook.WebClient.Enum.ModeGrouping">
             <summary>

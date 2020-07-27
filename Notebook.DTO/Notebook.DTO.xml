@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Notebook.DTO</name>
+    </assembly>
+    <members>
+        <member name="T:Notebook.DTO.Models.BaseModel">
+            <summary>
+            Base class which property will be multiple used
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.BaseModel.Id">
+            <summary>
+            Id of the record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.ContactModel">
+            <summary>
+            Describes main information about contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.FirstName">
+            <summary>
+            First name of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.LastName">
+            <summary>
+            Last name of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.Patronymic">
+            <summary>
+            Patronymic of the contact("otchestvo")
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.BirthDate">
+            <summary>
+            Birth date of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.OrganizationName">
+            <summary>
+            Name of Organization where contact work
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.Position">
+            <summary>
+            Position which contact has in organization
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.CollectionInformations">
+            <summary>
+            Collection information correlated to current contact (personal call data)
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.ContactInformationModel">
+            <summary>
+            Represents contact information for call
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.PhoneNumber">
+            <summary>
+            Phone number of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Email">
+            <summary>
+            Email of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Skype">
+            <summary>
+            Skype of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Other">
+            <summary>
+            Additional information
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.ContactId">
+            <summary>
+            Id of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Contact">
+            <summary>
+            Reference to contact data
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.ContactPortfolioListModel">
+            <summary>
+            Get list of all additional contact information
+            </summary>
+        </member>
+        <member name="F:Notebook.DTO.Models.Request.ContactPortfolioListModel.ContactPortfolioModels">
+            <summary>
+            List of contact information
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.NoteModel">
+            <summary>
+            Represent information about records in notebook
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.Id">
+            <summary>
+            Id of the record
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.StartDate">
+            <summary>
+            Start date for current deal (meeting...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.EndDate">
+            <summary>
+            End date for current deal (meeting...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.Theme">
+            <summary>
+            Theme of the deal (meeting...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.Place">
+            <summary>
+            Place for the meeting (deal...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.IsDeleted">
+            <summary>
+            Indicates whether record was deleted or not
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.IsComplete">
+            <summary>
+            Indicates whether record was completed or not
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.RecordType">
+            <summary>
+            Represent type of record 
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.RecordTypeModel">
+            <summary>
+            Describes record type information
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Id">
+            <summary>
+            Id or record
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Name">
+            <summary>
+            Name of record
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Alias">
+            <summary>
+            Type of record (from enum)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Description">
+            <summary>
+            Description for record 
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.ContactInformationListModel">
+            <summary>
+            Represent a collection of contact information
+            </summary>
+        </member>
+        <member name="F:Notebook.DTO.Models.Response.ContactInformationListModel.ContactInformationList">
+            <summary>
+            Collection of contact information
+            </summary>
+        </member>
+    </members>
+</doc>

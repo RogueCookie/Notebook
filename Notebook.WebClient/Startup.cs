@@ -89,8 +89,10 @@ namespace Notebook.WebClient
 
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                var xmlDtoPath = Path.Combine(AppContext.BaseDirectory, "Notebook.DTO.xml");
 
                 c.IncludeXmlComments(xmlCommentsFullPath);
+                c.IncludeXmlComments(xmlDtoPath);
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
@@ -109,7 +111,6 @@ namespace Notebook.WebClient
             {
                 c.SwaggerEndpoint($"v1/swagger.json", $"Notebook v1");
                 c.DisplayRequestDuration();
-                //c.RoutePrefix = "";//
             });
 
             if (env.IsDevelopment())
