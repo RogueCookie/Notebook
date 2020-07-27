@@ -7,10 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Notebook.Database;
+using Notebook.DTO.Mapping;
 using Notebook.WebClient.Services;
 using System;
-using System.Collections.Generic;
-using Notebook.DTO.Mapping;
+using System.IO;
+using System.Reflection;
 
 namespace Notebook.WebClient
 {
@@ -85,6 +86,11 @@ namespace Notebook.WebClient
                 //        new List<string>()
                 //    }
                 //});
+
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+                c.IncludeXmlComments(xmlCommentsFullPath);
             });
 
             services.AddSwaggerGenNewtonsoftSupport();

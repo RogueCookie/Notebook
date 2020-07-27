@@ -32,6 +32,7 @@ namespace Notebook.WebClient.Controllers
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        
         public async Task<ActionResult<List<NoteModel>>> GetNotes(DateTime? from, DateTime? to)
         {
             var allFromService = await _notebookService.GetAllNotDeletedRecordsAsync(from, to);
@@ -52,6 +53,11 @@ namespace Notebook.WebClient.Controllers
                 _mapper.Map<NoteModel>(noteToAdd));
         }
 
+        /// <summary>
+        /// Get particular note by Id
+        /// </summary>
+        /// <param name="noteId">Id of note</param>
+        /// <returns>Entity with particular Id</returns>
         [HttpGet("{noteId}")]
         public async Task<ActionResult<NoteModel>> GetNote(long noteId)
         {
@@ -79,8 +85,5 @@ namespace Notebook.WebClient.Controllers
             await _notebookService.UpdateRecordAsync(adaptModel);
             return Ok(_mapper.Map<NoteModel>(noteFromService));
         }
-
-
-        
     }
 }

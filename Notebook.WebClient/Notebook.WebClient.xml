@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Notebook.WebClient</name>
+    </assembly>
+    <members>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.GetNote(System.Int64)">
+            <summary>
+            Get particular note by Id
+            </summary>
+            <param name="noteId">Id of note</param>
+            <returns>Entity with particular Id</returns>
+        </member>
+        <member name="T:Notebook.WebClient.Enum.ModeGrouping">
+            <summary>
+            Filter for selecting records by time range
+            </summary>
+        </member>
+        <member name="F:Notebook.WebClient.Enum.ModeGrouping.Daily">
+            <summary>
+            Time range by particular day
+            </summary>
+        </member>
+        <member name="F:Notebook.WebClient.Enum.ModeGrouping.Weekly">
+            <summary>
+            Time range by particular week
+            </summary>
+        </member>
+        <member name="F:Notebook.WebClient.Enum.ModeGrouping.Monthly">
+            <summary>
+            Time range by particular month
+            </summary>
+        </member>
+        <member name="T:Notebook.WebClient.Services.ContactService">
+            <summary>
+            Manipulation with contact entities
+            </summary>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.AddContactAsync(Notebook.Domain.Entity.Contact)">
+            <summary>
+            Add new Contact
+            </summary>
+            <param name="newContact">New contact</param>
+            <returns>Id of the new added contact</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.AddContactInformationAsync(Notebook.Domain.Entity.ContactInformation)">
+            <summary>
+            Add contact new information about contact
+            </summary>
+            <param name="newContactInformation">New information entity about contact</param>
+            <returns>Id of contact to whom was added new information</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.AddBulkContactInformationAsync(System.Collections.Generic.IEnumerable{Notebook.Domain.Entity.ContactInformation})">
+            <summary>
+            Add list of contact information
+            </summary>
+            <param name="newContactsInformation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetContactByIdAsync(System.Int64)">
+            <summary>
+            Get contact with particular Id
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>Contact entity with particular ID</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetAllContactsAsync">
+            <summary>
+            Get ordered contacts
+            </summary>
+            <returns>List of ordered contacts</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetAllInfoForContactAsync(System.Int64)">
+            <summary>
+            Get all contact information for current contact
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>List of information for particular contact</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.RemoveContactAsync(System.Int64)">
+            <summary>
+            Remove contact with all correlate to him contact information
+            </summary>
+            <param name="contactId">Id of contact</param>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetCurrentContactInformationAsync(System.Int64)">
+            <summary>
+            Get current record contact information
+            </summary>
+            <param name="contactInfoId">Id of contact information</param>
+            <returns>Contact Information entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.RemoveCurrentContactInformation(System.Int64)">
+            <summary>
+            Remove particular contact information 
+            </summary>
+            <param name="contInfoId">Id of information record</param>
+            <returns>Whether the contact information deleted successfully</returns>
+        </member>
+        <member name="T:Notebook.WebClient.Services.NotebookService">
+            <summary>
+            Manipulation with records in notebook
+            </summary>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.AddRecordAsync(Notebook.Domain.Entity.Record)">
+            <summary>
+            Add new records in notebook
+            </summary>
+            <param name="newRecord">New record</param>
+            <returns>No object or value is returned by this method when it completes</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.GetAllNotDeletedRecordsAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Get all not deleted records
+            </summary>
+            <param name="from">Time range from current date</param>
+            <param name="to">Time range till current date</param>
+            <returns>List of not deleted records in some time range</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.GetRecordByIdAsync(System.Int64)">
+            <summary>
+            Get record with particular Id
+            </summary>
+            <param name="recordId">Id of record</param>
+            <returns>Record entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.MarkRecordAsCompletedAsync(System.Int64,System.Boolean)">
+            <summary>
+            Mark record as completed
+            </summary>
+            <param name="recordId">Id of record</param>
+            <param name="isCompleted">Indicates if the record is completed or not</param>
+            <returns>Whether the entity was successfully marked or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.DeletedRecordAsync(System.Int64)">
+            <summary>
+            Mark record as deleted
+            </summary>
+            <param name="recordId">Id of records</param>
+            <returns>Whether the entry was successfully deleted or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.UpdateRecordAsync(Notebook.Domain.Entity.Record)">
+            <summary>
+            Update existing record
+            </summary>
+            <param name="record">Record entity for updating</param>
+            <returns>Whether the entry was successfully updated or not</returns>
+        </member>
+    </members>
+</doc>
