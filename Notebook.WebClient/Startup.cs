@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +14,7 @@ using Notebook.WebClient.Services;
 using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Notebook.WebClient
 {
@@ -38,6 +39,7 @@ namespace Notebook.WebClient
                 setupAction.Filters.Add(
                     new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
 
+                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
             });
                 
             var schema = Configuration.GetValue<string>("SchemaName");

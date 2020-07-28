@@ -11,13 +11,10 @@ using System.Threading.Tasks;
 
 namespace Notebook.WebClient.Controllers
 {
+    [Produces("application/json", "application/xml")]
     [Route("api/v1/notebook")]
-    //[Produces("application/json", "application/xml")]
     //[Route("api/v{version:apiVersion}/notes")]
     [ApiController]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class NotebookController : Controller
     {
         private readonly NotebookService _notebookService;
@@ -58,6 +55,7 @@ namespace Notebook.WebClient.Controllers
         /// <param name="model">Entity which will be added</param>
         /// <returns>An ActionResult of type NoteModel</returns>
         [HttpPost()]
+        [Consumes("application/json")]
         public async Task<ActionResult<NoteModel>> CreateNote(NoteModel model)
         {
             var noteToAdd = _mapper.Map<Record>(model);
