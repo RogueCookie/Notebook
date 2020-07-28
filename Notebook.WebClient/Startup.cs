@@ -54,7 +54,13 @@ namespace Notebook.WebClient
                 {
                     Version = "v1",
                     Title = "API for work with Notebook",
-                    Description = "This app represent two option which can be used like contact notebook and notes for daily deals"
+                    Description = "This app represent two option which can be used like contact notebook and notes for daily deals",
+                    Contact = new OpenApiContact()
+                    {
+                        Email = "MissValeriV@mail.ru",
+                        Name = "Valeriia Vaganova",
+                        Url = new Uri("https://www.facebook.com/valeriia.vaganova.9/")
+                    }
                 });
 
                 //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
