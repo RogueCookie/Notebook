@@ -12,6 +12,8 @@ using Notebook.WebClient.Services;
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Notebook.WebClient
 {
@@ -27,7 +29,17 @@ namespace Notebook.WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(setupAction =>
+            {
+                setupAction.Filters.Add(
+                    new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+                setupAction.Filters.Add(
+                    new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                setupAction.Filters.Add(
+                    new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+
+            });
+                
             var schema = Configuration.GetValue<string>("SchemaName");
 
             services.AddDbContext<NotebookDbContext>(opt =>

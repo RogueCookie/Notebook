@@ -15,6 +15,9 @@ namespace Notebook.WebClient.Controllers
     //[Produces("application/json", "application/xml")]
     //[Route("api/v{version:apiVersion}/notes")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class NotebookController : Controller
     {
         private readonly NotebookService _notebookService;
@@ -36,8 +39,8 @@ namespace Notebook.WebClient.Controllers
         /// <param name="to">Till date</param>
         /// <returns>All not completed and not deleted notes</returns>
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<List<NoteModel>>> GetNotes(DateTime? from, DateTime? to)
         {
@@ -74,10 +77,9 @@ namespace Notebook.WebClient.Controllers
         /// <param name="noteId">The id of note you want to get</param>
         /// <returns>An ActionResult of type NoteModel</returns>
         /// <response code="200">Returns the requested note</response>
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("{noteId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<NoteModel>> GetNote(long noteId)
         {
             var noteFromService = await _notebookService.GetRecordByIdAsync(noteId);
