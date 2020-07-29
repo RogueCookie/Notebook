@@ -13,6 +13,7 @@ using Notebook.DTO.Mapping;
 using Notebook.WebClient.Services;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
@@ -75,7 +76,10 @@ namespace Notebook.WebClient
                         Name = "Valeriia Vaganova",
                         Url = new Uri("https://www.facebook.com/valeriia.vaganova.9/")
                     }
-                });
+                }); 
+
+                // to resolve conflict in Action when returning two API description 
+                //c.ResolveConflictingActions(apiDescription => apiDescription.First());
 
                 //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 //{

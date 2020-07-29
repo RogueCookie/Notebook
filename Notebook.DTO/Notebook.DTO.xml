@@ -144,6 +144,11 @@
             Represent type of record 
             </summary>
         </member>
+        <member name="P:Notebook.DTO.Models.Request.NoteModel.Contacts">
+            <summary>
+            Assigned people for current meeting
+            </summary>
+        </member>
         <member name="T:Notebook.DTO.Models.Request.RecordTypeModel">
             <summary>
             Describes record type information

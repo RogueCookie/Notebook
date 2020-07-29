@@ -1,5 +1,6 @@
 ﻿using Notebook.Domain.Entity;
 using System;
+using System.Collections.Generic;
 
 namespace Notebook.DTO.Models.Request
 {
@@ -55,5 +56,10 @@ namespace Notebook.DTO.Models.Request
         /// Represent type of record 
         /// </summary>
         public RecordType RecordType { get; set; }
+
+        /// <summary>
+        /// Assigned people for current meeting
+        /// </summary>
+        public ICollection<Contact> Contacts { get; set; }
     }
 }

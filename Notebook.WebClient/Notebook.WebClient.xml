@@ -4,6 +4,53 @@
         <name>Notebook.WebClient</name>
     </assembly>
     <members>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.GetAllContacts">
+            <summary>
+            Get all contacts
+            </summary>
+            <returns>All not deleted contacts</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.GetContact(System.Int64)">
+            <summary>
+            Get particular contact
+            </summary>
+            <param name="contactId">Id of the contact</param>
+            <returns>An ActionResult of type ContactCreateModel</returns>
+            <response code="200">Returns the requested contact</response>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.GetDetails(System.Int64)">
+            <summary>
+            Get details for particular contact
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>All contact information</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContact">
+            <summary>
+            Create new contact
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContact(Notebook.DTO.Models.Request.ContactCreateModel)">
+            <summary>
+            Add new contact
+            </summary>
+            <param name="model">New contact entity</param>
+            <returns>An ActionResult of type ContactCreateModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContactInformation">
+            <summary>
+            Add contact information for particular contact
+            </summary>
+            <returns>An ActionResult of type NoteModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContactInformation(Notebook.DTO.Models.Request.ContactInformationModel)">
+            <summary>
+            Add a new contact information
+            </summary>
+            <param name="model">New contact information entity</param>
+            <returns>An ActionResult of type ContactInformationModel</returns>
+        </member>
         <member name="M:Notebook.WebClient.Controllers.NotebookController.GetNotes(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Get all notes
