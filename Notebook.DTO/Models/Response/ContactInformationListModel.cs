@@ -1,12 +1,11 @@
-﻿using Notebook.DTO.Models.Request;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Notebook.DTO.Models.Response
 {
     /// <summary>
     /// Represent a collection of contact information
     /// </summary>
-    public class ContactInformationListModel
+    public class ContactInformationListModel : BaseModel
     {
         /// <summary>
         /// Collection of contact information

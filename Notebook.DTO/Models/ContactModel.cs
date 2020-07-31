@@ -40,10 +40,5 @@ namespace Notebook.DTO.Models
         /// Position which contact has in organization
         /// </summary>
         public string Position { get; set; }
-
-        /// <summary>
-        /// Collection information correlated to current contact (personal call data)
-        /// </summary>
-        public virtual ICollection<long> CollectionInformationIds { get; set; }
     }
 }

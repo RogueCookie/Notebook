@@ -11,11 +11,11 @@ namespace Notebook.DTO.Mapping
             CreateMap<ContactCreateModel, Contact>();
             CreateMap<Contact, ContactCreateModel>();
 
-            CreateMap<NoteModel, Record>();
-            CreateMap<Record, NoteModel>();
+            CreateMap<NotePortfolioListModel, Record>();
+            CreateMap<Record, NotePortfolioListModel>();
 
-            CreateMap<ContactInformationModel, ContactInformation>();
-            CreateMap<ContactInformation, ContactInformationModel>();
+            CreateMap<CreateContactInformationModel, ContactInformation>();
+            CreateMap<ContactInformation, CreateContactInformationModel>();
         }
     }
 }

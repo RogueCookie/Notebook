@@ -4,6 +4,6 @@ namespace Notebook.DTO.Models.Request
 {
     public class ContactDetailList
     {
-        public List<ContactInformationModel> ContactDetails { get; set; }
+        public List<CreateContactInformationModel> ContactDetails { get; set; }
     }
 }

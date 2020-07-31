@@ -37,15 +37,15 @@ namespace Notebook.WebClient.Controllers
         /// <param name="to">Till date</param>
         /// <returns>All not completed and not deleted notes</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(List<NoteModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<List<NoteModel>>> GetNotes(DateTime? from, DateTime? to)
+        [ProducesResponseType(typeof(List<NotePortfolioListModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<List<NotePortfolioListModel>>> GetNotes(DateTime? from, DateTime? to)
         {
             var allFromService = await _notebookService.GetAllNotDeletedRecordsAsync(from, to);
             if (allFromService == null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<List<NoteModel>>(allFromService));
+            return Ok(_mapper.Map<List<NotePortfolioListModel>>(allFromService));
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace Notebook.WebClient.Controllers
         /// <param name="model">Entity which will be added</param>
         /// <returns>An ActionResult of type NoteModel</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(NoteModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<NoteModel>> CreateNote([FromBody]NoteModel model)
+        [ProducesResponseType(typeof(NotePortfolioListModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NotePortfolioListModel>> CreateNote([FromBody]NotePortfolioListModel model)
         {
             var noteToAdd = _mapper.Map<Record>(model);
             var addedNote = await _notebookService.AddRecordAsync(noteToAdd);
@@ -65,7 +65,7 @@ namespace Notebook.WebClient.Controllers
             return CreatedAtRoute(
                 "GetNote",
                 new { model.Id },
-                _mapper.Map<NoteModel>(noteToAdd));
+                _mapper.Map<NotePortfolioListModel>(noteToAdd));
         }
 
         /// <summary>
@@ -75,8 +75,8 @@ namespace Notebook.WebClient.Controllers
         /// <returns>An ActionResult of type NoteModel</returns>
         /// <response code="200">Returns the requested note</response>
         [HttpGet]
-        [ProducesResponseType(typeof(NoteModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<NoteModel>> GetNote([FromQuery]long noteId)
+        [ProducesResponseType(typeof(NotePortfolioListModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NotePortfolioListModel>> GetNote([FromQuery]long noteId)
         {
             var noteFromService = await _notebookService.GetRecordByIdAsync(noteId);
             if (noteFromService == null)
@@ -84,7 +84,7 @@ namespace Notebook.WebClient.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<NoteModel>(noteFromService));
+            return Ok(_mapper.Map<NotePortfolioListModel>(noteFromService));
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace Notebook.WebClient.Controllers
         /// <returns>An ActionResult of type NoteModel</returns>
         //HttpPatch()]
         [HttpPut]
-        [ProducesResponseType(typeof(NoteModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<NoteModel>> UpdateNote([FromBody] NoteModel recordForUpdate)
+        [ProducesResponseType(typeof(NotePortfolioListModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NotePortfolioListModel>> UpdateNote([FromBody] NotePortfolioListModel recordForUpdate)
         {
             var noteFromService = await _notebookService.GetRecordByIdAsync(recordForUpdate.Id);
             if (noteFromService == null)
@@ -106,7 +106,7 @@ namespace Notebook.WebClient.Controllers
             var adaptModel = _mapper.Map<Record>(recordForUpdate);
             //_mapper.Map(noteFromService, recordForUpdate);
             await _notebookService.UpdateRecordAsync(adaptModel);
-            return Ok(_mapper.Map<NoteModel>(noteFromService));
+            return Ok(_mapper.Map<NotePortfolioListModel>(noteFromService));
         }
     }
 }

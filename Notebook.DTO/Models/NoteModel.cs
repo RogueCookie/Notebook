@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Notebook.DTO.Models.Request
+namespace Notebook.DTO.Models
 {
     /// <summary>
     /// Represent information about records in notebook
     /// </summary>
-    public class NoteModel : BaseModel
+    public class NoteModel
     {
-
         /// <summary>
         /// Start date for current deal (meeting...)
         /// </summary>
@@ -28,11 +27,6 @@ namespace Notebook.DTO.Models.Request
         /// Place for the meeting (deal...)
         /// </summary>
         public string Place { get; set; }
-
-        /// <summary>
-        /// Indicates whether record was deleted or not
-        /// </summary>
-        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// Indicates whether record was completed or not

@@ -122,7 +122,7 @@ namespace Notebook.WebClient.Services
                 .GetOrderedContacts().Select(x => new ContactCreateModel()
                 {
                     FirstName = x.FirstName,
-                    BirthDate = x.BirthDate //TODO
+                    BirthDate = x.BirthDate //TODO create extension
                 }).ToListAsync();
         }
 
@@ -147,7 +147,7 @@ namespace Notebook.WebClient.Services
             try
             {
                 var contact = await _context.Contacts
-                    .Include(info => info.CollectionInformations) // TODo так оно удалит информатин в совокупе?
+                    .Include(info => info.CollectionInformations) // TODo check
                     .FirstOrDefaultAsync(x => x.Id == contactId);
 
                 if (contact != null)

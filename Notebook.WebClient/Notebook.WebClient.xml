@@ -76,7 +76,7 @@
             <param name="to">Till date</param>
             <returns>All not completed and not deleted notes</returns>
         </member>
-        <member name="M:Notebook.WebClient.Controllers.NotebookController.CreateNote(Notebook.DTO.Models.Request.NoteModel,System.Int64)">
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.CreateNote(Notebook.DTO.Models.Request.NoteModel)">
             <summary>
             Add a new note
             </summary>

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Notebook.DTO.Models.Request
+namespace Notebook.DTO.Models
 {
     /// <summary>
     /// Represents contact information for call
     /// </summary>
-    public class ContactInformationModel : ContactModel
+    public class ContactInformationModel
     {
         /// <summary>
         /// Phone number of the contact
@@ -35,12 +35,5 @@ namespace Notebook.DTO.Models.Request
         /// Id of the contact
         /// </summary>
         public long ContactId { get; set; } //TODO do we need it?
-
-        /// <summary>
-        /// Reference to contact data
-        /// </summary>
-        public ContactModel Contact { get; set; } //TODO do we need it?
-
-        public string NewContactInfoSerialize { get; set; }
     }
 }
