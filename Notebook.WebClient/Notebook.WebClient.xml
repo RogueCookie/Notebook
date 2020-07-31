@@ -25,12 +25,6 @@
             <param name="contactId">Id of contact</param>
             <returns>All contact information</returns>
         </member>
-        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContact">
-            <summary>
-            Create new contact
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContact(Notebook.DTO.Models.Request.ContactCreateModel)">
             <summary>
             Add new contact
@@ -38,18 +32,41 @@
             <param name="model">New contact entity</param>
             <returns>An ActionResult of type ContactCreateModel</returns>
         </member>
-        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContactInformation">
-            <summary>
-            Add contact information for particular contact
-            </summary>
-            <returns>An ActionResult of type NoteModel</returns>
-        </member>
         <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContactInformation(Notebook.DTO.Models.Request.ContactInformationModel)">
             <summary>
             Add a new contact information
             </summary>
             <param name="model">New contact information entity</param>
             <returns>An ActionResult of type ContactInformationModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.EditContactInfo(System.Int64)">
+            <summary>
+            Get information for updates for particular contact
+            </summary>
+            <param name="contactInfoId">Id of information</param>
+            <returns>An ActionResult of type ContactInformationModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.EditContactInfo(Notebook.DTO.Models.Request.ContactInformationModel)">
+            <summary>
+            Edit contact information
+            </summary>
+            <param name="contactInfoId">Id of information</param>
+            <param name="model">Entity which need to update</param>
+            <returns>An ActionResult of type ContactInformationModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.Remove(System.Int64)">
+            <summary>
+            Delete contact with all related information
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>Whether contact was successfully removed or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.RemoveContactInformation(System.Int64)">
+            <summary>
+            Delete particular information about contact
+            </summary>
+            <param name="contactInfoId">Id of contact information</param>
+            <returns>Whether information was successfully removed or not</returns>
         </member>
         <member name="M:Notebook.WebClient.Controllers.NotebookController.GetNotes(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
@@ -59,7 +76,7 @@
             <param name="to">Till date</param>
             <returns>All not completed and not deleted notes</returns>
         </member>
-        <member name="M:Notebook.WebClient.Controllers.NotebookController.CreateNote(Notebook.DTO.Models.Request.NoteModel)">
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.CreateNote(Notebook.DTO.Models.Request.NoteModel,System.Int64)">
             <summary>
             Add a new note
             </summary>
@@ -74,11 +91,10 @@
             <returns>An ActionResult of type NoteModel</returns>
             <response code="200">Returns the requested note</response>
         </member>
-        <member name="M:Notebook.WebClient.Controllers.NotebookController.UpdateNote(System.Int64,Notebook.DTO.Models.Request.NoteModel)">
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.UpdateNote(Notebook.DTO.Models.Request.NoteModel)">
             <summary>
             Update particular note
             </summary>
-            <param name="noteId">Id of the note</param>
             <param name="recordForUpdate">Entity which need to update</param>
             <returns>An ActionResult of type NoteModel</returns>
         </member>

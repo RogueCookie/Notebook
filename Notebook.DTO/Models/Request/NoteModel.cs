@@ -1,5 +1,4 @@
-﻿using Notebook.Domain.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Notebook.DTO.Models.Request
@@ -7,13 +6,8 @@ namespace Notebook.DTO.Models.Request
     /// <summary>
     /// Represent information about records in notebook
     /// </summary>
-    public class NoteModel
+    public class NoteModel : BaseModel
     {
-
-        /// <summary>
-        /// Id of the record
-        /// </summary>
-        public long Id { get; set; }
 
         /// <summary>
         /// Start date for current deal (meeting...)
@@ -45,21 +39,14 @@ namespace Notebook.DTO.Models.Request
         /// </summary>
         public bool IsComplete { get; set; }
 
-        ///// <summary>
-        ///// Mark when record was created
-        ///// </summary>
-        //public DateTime CreatedAt { get; set; }
-
-        // Navigation property
-
         /// <summary>
         /// Represent type of record 
         /// </summary>
-        public RecordType RecordType { get; set; }
+        public long RecordTypeId { get; set; }
 
         /// <summary>
         /// Assigned people for current meeting
         /// </summary>
-        public ICollection<Contact> Contacts { get; set; }
+        public ICollection<long> ContactIds { get; set; }
     }
 }

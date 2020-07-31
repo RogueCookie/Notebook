@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Notebook.Domain.Entity;
-using Notebook.DTO.Mapping.CreateContact;
 using Notebook.DTO.Models.Request;
 
 namespace Notebook.DTO.Mapping
@@ -14,6 +13,9 @@ namespace Notebook.DTO.Mapping
 
             CreateMap<NoteModel, Record>();
             CreateMap<Record, NoteModel>();
+
+            CreateMap<ContactInformationModel, ContactInformation>();
+            CreateMap<ContactInformation, ContactInformationModel>();
         }
     }
 }

@@ -54,6 +54,11 @@
             Collection information correlated to current contact (personal call data)
             </summary>
         </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.RecordsToContacts">
+            <summary>
+            Records correlated to current contact (relationship between tables one to many)
+            </summary>
+        </member>
         <member name="T:Notebook.DTO.Models.Request.ContactInformationModel">
             <summary>
             Represents contact information for call

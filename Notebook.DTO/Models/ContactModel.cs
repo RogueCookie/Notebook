@@ -1,5 +1,4 @@
-﻿using Notebook.DTO.Models.Request;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -45,6 +44,6 @@ namespace Notebook.DTO.Models
         /// <summary>
         /// Collection information correlated to current contact (personal call data)
         /// </summary>
-        public virtual ICollection<ContactInformationModel> CollectionInformations { get; set; }
+        public virtual ICollection<long> CollectionInformationIds { get; set; }
     }
 }

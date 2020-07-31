@@ -1,21 +1,22 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Notebook.Database;
 using Notebook.DTO.Mapping;
 using Notebook.WebClient.Services;
 using System;
 using System.IO;
-using System.Linq;
+using System.Net;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Notebook.WebClient
 {
@@ -33,18 +34,18 @@ namespace Notebook.WebClient
         {
             services.AddControllersWithViews(setupAction =>
             {
-                setupAction.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
-                setupAction.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-                setupAction.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+            //    //setupAction.Filters.Add(
+            //    //    new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+            //    //setupAction.Filters.Add(
+            //    //    new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+            //    //setupAction.Filters.Add(
+            //    //    new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
 
-                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+             setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
             });
-                
-            var schema = Configuration.GetValue<string>("SchemaName");
 
+            var schema = Configuration.GetValue<string>("SchemaName");
+            //services.AddLogging(LogB)
             services.AddDbContext<NotebookDbContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("NotebookConnection"), x =>
                         x.MigrationsHistoryTable("_migrations_history", schema))
@@ -78,39 +79,8 @@ namespace Notebook.WebClient
                     }
                 }); 
 
-                // to resolve conflict in Action when returning two API description 
-                //c.ResolveConflictingActions(apiDescription => apiDescription.First());
 
-                //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                //{
-                //    Description = @"JWT Authorization header using the Bearer scheme." + Environment.NewLine +
-                //                  "Enter 'Bearer' [space] and then your token in the text input below." + Environment.NewLine +
-                //                  "Example: 'Bearer 12345abcdef'",
-                //    Name = "Authorization",
-                //    In = ParameterLocation.Header,
-                //    Type = SecuritySchemeType.ApiKey,
-                //    Scheme = "Bearer"
-                //});
-
-                //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                //{
-                //    {
-                //        new OpenApiSecurityScheme
-                //        {
-                //            Reference = new OpenApiReference
-                //            {
-                //                Type = ReferenceType.SecurityScheme,
-                //                Id = "Bearer"
-                //            },
-                //            Scheme = "oauth2",
-                //            Name = "Bearer",
-                //            In = ParameterLocation.Header,
-
-                //        },
-                //        new List<string>()
-                //    }
-                //});
-
+                // path from which project to read xml documentation
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 var xmlDtoPath = Path.Combine(AppContext.BaseDirectory, "Notebook.DTO.xml");
@@ -120,12 +90,10 @@ namespace Notebook.WebClient
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
@@ -135,6 +103,21 @@ namespace Notebook.WebClient
             {
                 c.SwaggerEndpoint($"v1/swagger.json", $"Notebook v1");
                 c.DisplayRequestDuration();
+            });
+
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                    var exceptionHandlerFeature =
+                        context.Features.Get<IExceptionHandlerFeature>();
+                    logger.LogError(new EventId(), exceptionHandlerFeature.Error, exceptionHandlerFeature.Error.Message);
+
+                    await context.Response.WriteAsync("Something wrong");
+                });
             });
 
             if (env.IsDevelopment())
@@ -157,9 +140,9 @@ namespace Notebook.WebClient
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers(); //    endpoints.MapControllerRoute(
+                //        //name: "default",
+                //        //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

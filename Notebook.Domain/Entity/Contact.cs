@@ -54,6 +54,5 @@ namespace Notebook.Domain.Entity
         /// Records correlated to current contact (relationship between tables one to many)
         /// </summary>
         public virtual ICollection<RecordsToContacts> RecordsToContacts { get; set; }
-
     }
 }

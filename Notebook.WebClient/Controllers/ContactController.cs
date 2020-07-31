@@ -5,15 +5,18 @@ using Notebook.Domain.Entity;
 using Notebook.DTO.Models.Request;
 using Notebook.WebClient.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Notebook.DTO.Models;
 
 namespace Notebook.WebClient.Controllers
 {
-    //[Route("api/v1/[actions]")]
+    [Route("api/v1/[controller]/[action]")]
     [Produces("application/json", "application/xml")]
-    [Route("api/v1/notebook/contact")]
+   // [Route("api/v1/notebook/contact")]
     [ApiController]
     public class ContactController : Controller
     {
@@ -33,32 +36,16 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <returns>All not deleted contacts</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<ActionResult<ContactPortfolioListModel>> GetAllContacts()  // TODO or better to do List<ContactModel>
+        [ProducesResponseType(typeof(List<ContactCreateModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<List<ContactCreateModel>>> GetAllContacts()  // TODO or better to do List<ContactModel>
         {
             var contacts = await _contactService.GetAllContactsAsync();
-            /*var contactModel = contacts.Select(c => new ContactCreateModel
-            {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName ?? " "
-            }).ToList();
-
-            var model = new ContactPortfolioListModel()
-            {
-                ContactPortfolioModels = contactModel
-            };
-            return Ok(model);*/
             if (contacts == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<ContactPortfolioListModel>(contacts));
+            return Ok(_mapper.Map<List<ContactCreateModel>>(contacts));
             //return View(model);
         }
 
@@ -68,10 +55,9 @@ namespace Notebook.WebClient.Controllers
         /// <param name="contactId">Id of the contact</param>
         /// <returns>An ActionResult of type ContactCreateModel</returns>
         /// <response code="200">Returns the requested contact</response>
-        [HttpGet("{contactId}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ContactCreateModel>> GetContact(long contactId)
+        [HttpGet]
+        [ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ContactCreateModel>> GetContact([FromQuery]long contactId)
         {
             var allContactFromService = await _contactService.GetAllContactsAsync();
             var contactFromService = allContactFromService.FirstOrDefault(x => x.Id == contactId);
@@ -89,14 +75,13 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <param name="contactId">Id of contact</param>
         /// <returns>All contact information</returns>
-        [HttpGet("{contactId}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<ActionResult<ContactDetailList>> GetDetails(long contactId)
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<ContactInformationModel>), (int)HttpStatusCode.OK)]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<ActionResult<IEnumerable<ContactInformationModel>>> GetDetails([FromQuery] long contactId)
         {
             var contactInfo = await  _contactService.GetAllInfoForContactAsync(contactId);
+
             /*var contactModel = contactInfo.Select(x => new ContactInformationModel
             {
                 ContactId = x.ContactId,
@@ -111,22 +96,22 @@ namespace Notebook.WebClient.Controllers
                 ContactDetails = contactModel
             };
             return Ok(model);*/
-            return Ok(_mapper.Map<ContactDetailList>(contactInfo));
+            return Ok(_mapper.Map<IEnumerable<ContactInformationModel>> (contactInfo));
 
             //return View(model);
         }
 
-        /// <summary>
-        /// Create new contact
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult CreateContact()
-        {
-            var model = new ContactCreateModel ();
-            return Ok(model);
-            //return View(model);
-        }
+        ///// <summary>
+        ///// Create new contact
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public async Task<ActionResult<ContactCreateModel>> CreateContact()
+        //{
+        //    var model = new ContactCreateModel ();
+        //    return Ok(model);
+        //    //return View(model);
+        //}
 
         /// <summary>
         /// Add new contact
@@ -135,49 +120,35 @@ namespace Notebook.WebClient.Controllers
         /// <returns>An ActionResult of type ContactCreateModel</returns>
         [HttpPost]
         [Consumes("application/json")]
-        public async Task<ActionResult<ContactCreateModel>> CreateContact(ContactCreateModel model)
+        [ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ContactCreateModel>> CreateContact([FromBody]ContactCreateModel model)
         {
-            /*if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                //var contact = _mapper.Map<ContactCreateModel, Contact>(model);
-                var newContact = new Contact
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Patronymic = model.Patronymic,
-                    BirthDate = model.BirthDate,
-                    OrganizationName = model.OrganizationName,
-                    Position = model.Position
-                };
-                var result = await _contactService.AddContactAsync(newContact);
-                _logger.LogInformation($"New contact was added with id {result}");
-                return RedirectToAction("GetAllContacts", "Contact");
+                return BadRequest();
             }
-
-            return Ok(model);*/
             var contactToAdd = _mapper.Map<Contact>(model);
             var addedContact = await _contactService.AddContactAsync(contactToAdd);
-
-            return CreatedAtRoute(
+            var result = CreatedAtRoute(
                 "GetContact",
                 new { model.Id },
                 _mapper.Map<ContactCreateModel>(contactToAdd));
+            return result;
             //return View(model);
         }
 
-        /// <summary>
-        /// Add contact information for particular contact
-        /// </summary>
-        /// <returns>An ActionResult of type NoteModel</returns>
-        [HttpGet]
+        ///// <summary>
+        ///// Add contact information for particular contact
+        ///// </summary>
+        ///// <returns>An ActionResult of type NoteModel</returns>
+        //[HttpGet]
+        //[ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
+        //public ActionResult CreateContactInformation([FromQuery]long contactId)     // TODO with view i did it without id...how? should be opened with id of contact
+        //{
+        //    var model = new ContactInformationModel {ContactId = contactId}; // TODO need to check
 
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public ActionResult CreateContactInformation()     // TODO with view i did it without id...how?
-        {
-            var model= new ContactInformationModel();
-            return Ok(model);
-            //return View(model);
-        }
+        //    return Ok(model);
+        //}
 
         /// <summary>
         /// Add a new contact information
@@ -185,10 +156,10 @@ namespace Notebook.WebClient.Controllers
         /// <param name="model">New contact information entity</param>
         /// <returns>An ActionResult of type ContactInformationModel</returns>
         [HttpPost]
+        [ProducesResponseType(typeof(ContactInformationModel), (int)HttpStatusCode.OK)]
         [Consumes("application/json")]
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<ActionResult<ContactInformationModel>> CreateContactInformation(ContactInformationModel model)
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<ActionResult<ContactInformationModel>> CreateContactInformation([FromBody] ContactInformationModel model)
         {
             if (ModelState.IsValid) //TODO do we need it here? swagger do not do it for us?
             {
@@ -201,24 +172,21 @@ namespace Notebook.WebClient.Controllers
                     _mapper.Map<ContactDetailList>(infoToAdd) //TODO check how it works because there's list
                     );
             }
-
-            return Ok(model);
+            return BadRequest();
             //return View(model);
         }
 
-        /*
-        public async Task<IActionResult> Edit(long contactId)
-        {
-            var contact = await _contactService.GetContactByIdAsync(contactId);
-            return Ok(contact);
-            //return View(contact);
-        }
-
+        /// <summary>
+        /// Get information for updates for particular contact
+        /// </summary>
+        /// <param name="contactInfoId">Id of information</param>
+        /// <returns>An ActionResult of type ContactInformationModel</returns>
         [HttpGet]
-        public async Task<IActionResult> EditContactInfo(long contactInfoId)
+        [ProducesResponseType(typeof(ContactInformationModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ContactInformationModel>> EditContactInfo([FromQuery]long contactInfoId)
         {
             var contactInfo = await _contactService.GetCurrentContactInformationAsync(contactInfoId);
-            var model = new ContactInformationModel
+            /*var model = new ContactInformationModel
             {
                 ContactId = contactInfo.ContactId,
                 PhoneNumber = contactInfo.PhoneNumber,
@@ -226,12 +194,40 @@ namespace Notebook.WebClient.Controllers
                 Skype = contactInfo.Skype,
                 Other = contactInfo.Other
             };
-            return Ok(model);
-            //return View(model);
+            //return View(model);*/
+            if (contactInfo == null)
+            {
+                _logger.LogError($"Information id {contactInfoId} cannot be found");
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<ContactInformationModel>(contactInfo));
         }
 
+        /// <summary>
+        /// Edit contact information
+        /// </summary>
+        /// <param name="contactInfoId">Id of information</param>
+        /// <param name="model">Entity which need to update</param>
+        /// <returns>An ActionResult of type ContactInformationModel</returns>
+        [HttpPost]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(ContactInformationModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ContactInformationModel>> EditContactInfo([FromBody]ContactInformationModel model)
+        {
+            var infoFromService = await _contactService.GetCurrentContactInformationAsync(model.ContactId);
+            return Ok(_mapper.Map<ContactInformationModel>(infoFromService));
+        }
 
-        public async Task<IActionResult> Remove(long contactId)
+        /// <summary>
+        /// Delete contact with all related information
+        /// </summary>
+        /// <param name="contactId">Id of contact</param>
+        /// <returns>Whether contact was successfully removed or not</returns>
+        [HttpDelete]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<bool>> Remove([FromQuery]long contactId)
         {
             var isRemoved = await _contactService.RemoveContactAsync(contactId);
             if (!isRemoved)
@@ -243,11 +239,21 @@ namespace Notebook.WebClient.Controllers
                 _logger.LogInformation($"Contact with id {contactId} was successfully removed");
             }
 
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return Ok(isRemoved);
         }
 
 
-        public async Task<IActionResult> RemoveContactInformation(long contactInfoId)
+        /// <summary>
+        /// Delete particular information about contact
+        /// </summary>
+        /// <param name="contactInfoId">Id of contact information</param>
+        /// <returns>Whether information was successfully removed or not</returns>
+        [HttpDelete]
+        [Consumes("application/json-patch+json")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        //[Consumes("application/json")]
+        public async Task<ActionResult<bool>> RemoveContactInformation([FromQuery]long contactInfoId)
         {
             var isRemovedInfo = await _contactService.RemoveCurrentContactInformation(contactInfoId);
             if (!isRemovedInfo)
@@ -259,7 +265,8 @@ namespace Notebook.WebClient.Controllers
                 _logger.LogInformation($"Contact information with id {contactInfoId} was successfully removed");
             }
 
-            return RedirectToAction(nameof(Detail));
-        }*/
+            //return RedirectToAction(nameof(Detail));
+            return Ok(isRemovedInfo);
+        }
     }
 }

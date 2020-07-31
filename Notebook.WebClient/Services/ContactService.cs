@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Notebook.DTO.Models.Request;
 
 namespace Notebook.WebClient.Services
 {
@@ -115,10 +116,14 @@ namespace Notebook.WebClient.Services
         /// Get ordered contacts
         /// </summary>
         /// <returns>List of ordered contacts</returns>
-        public async Task<List<Contact>> GetAllContactsAsync()
+        public async Task<List<ContactCreateModel>> GetAllContactsAsync()
         {
             return await _context.Contacts
-                .GetOrderedContacts().ToListAsync();
+                .GetOrderedContacts().Select(x => new ContactCreateModel()
+                {
+                    FirstName = x.FirstName,
+                    BirthDate = x.BirthDate //TODO
+                }).ToListAsync();
         }
 
         /// <summary>

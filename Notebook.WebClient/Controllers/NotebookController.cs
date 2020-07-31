@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Notebook.Domain.Entity;
@@ -7,12 +6,14 @@ using Notebook.DTO.Models.Request;
 using Notebook.WebClient.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Notebook.WebClient.Controllers
 {
-    [Produces("application/json", "application/xml")]
-    [Route("api/v1/notebook")]
+    [Produces("application/json")]
+    //[Route("api/v1/notebook")]
+    [Route("api/v1/[controller]/[action]")]
     //[Route("api/v{version:apiVersion}/notes")]
     [ApiController]
     public class NotebookController : Controller
@@ -35,10 +36,8 @@ namespace Notebook.WebClient.Controllers
         /// <param name="from">From date</param>
         /// <param name="to">Till date</param>
         /// <returns>All not completed and not deleted notes</returns>
-        [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<NoteModel>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<NoteModel>>> GetNotes(DateTime? from, DateTime? to)
         {
             var allFromService = await _notebookService.GetAllNotDeletedRecordsAsync(from, to);
@@ -54,9 +53,9 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <param name="model">Entity which will be added</param>
         /// <returns>An ActionResult of type NoteModel</returns>
-        [HttpPost()]
-        [Consumes("application/json")]
-        public async Task<ActionResult<NoteModel>> CreateNote(NoteModel model)
+        [HttpPost]
+        [ProducesResponseType(typeof(NoteModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NoteModel>> CreateNote([FromBody]NoteModel model)
         {
             var noteToAdd = _mapper.Map<Record>(model);
             var addedNote = await _notebookService.AddRecordAsync(noteToAdd);
@@ -75,10 +74,9 @@ namespace Notebook.WebClient.Controllers
         /// <param name="noteId">The id of note you want to get</param>
         /// <returns>An ActionResult of type NoteModel</returns>
         /// <response code="200">Returns the requested note</response>
-        [HttpGet("{noteId}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NoteModel>> GetNote(long noteId)
+        [HttpGet]
+        [ProducesResponseType(typeof(NoteModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NoteModel>> GetNote([FromQuery]long noteId)
         {
             var noteFromService = await _notebookService.GetRecordByIdAsync(noteId);
             if (noteFromService == null)
@@ -92,17 +90,14 @@ namespace Notebook.WebClient.Controllers
         /// <summary>
         /// Update particular note
         /// </summary>
-        /// <param name="noteId">Id of the note</param>
         /// <param name="recordForUpdate">Entity which need to update</param>
         /// <returns>An ActionResult of type NoteModel</returns>
         //HttpPatch()]
-        [HttpPut("{noteId}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NoteModel>> UpdateNote(long noteId, NoteModel recordForUpdate)
+        [HttpPut]
+        [ProducesResponseType(typeof(NoteModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NoteModel>> UpdateNote([FromBody] NoteModel recordForUpdate)
         {
-            var noteFromService = await _notebookService.GetRecordByIdAsync(noteId);
+            var noteFromService = await _notebookService.GetRecordByIdAsync(recordForUpdate.Id);
             if (noteFromService == null)
             {
                 return NotFound();

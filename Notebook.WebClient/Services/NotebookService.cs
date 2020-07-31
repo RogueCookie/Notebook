@@ -126,8 +126,10 @@ namespace Notebook.WebClient.Services
         {
             try
             {
-                //var recordFromService =  _context.Records.GetNotDeleteRecords().FirstOrDefault(x => x.Id == record.Id);
-                _context.Update(record);
+                var recordFromBase =  _context.Records.GetNotDeleteRecords().FirstOrDefault(x => x.Id == record.Id);
+
+                recordFromBase.IsComplete = false;
+                //_context.Update(record);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation($"Record with id {record.Id} was successfully updated");
                 return true;
