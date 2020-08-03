@@ -6,6 +6,5 @@
         /// Id of contact
         /// </summary>
         public long Id { get; set; }
-        
     }
 }

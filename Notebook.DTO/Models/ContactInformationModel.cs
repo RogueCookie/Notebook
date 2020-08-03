@@ -34,6 +34,6 @@ namespace Notebook.DTO.Models
         /// <summary>
         /// Id of the contact
         /// </summary>
-        public long ContactId { get; set; } //TODO do we need it?
+        public long ContactId { get; set; }
     }
 }

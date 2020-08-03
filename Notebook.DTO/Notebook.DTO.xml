@@ -14,6 +14,36 @@
             Id of the record
             </summary>
         </member>
+        <member name="T:Notebook.DTO.Models.ContactInformationModel">
+            <summary>
+            Represents contact information for call
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.PhoneNumber">
+            <summary>
+            Phone number of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.Email">
+            <summary>
+            Email of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.Skype">
+            <summary>
+            Skype of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.Other">
+            <summary>
+            Additional information
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.ContactId">
+            <summary>
+            Id of the contact
+            </summary>
+        </member>
         <member name="T:Notebook.DTO.Models.ContactModel">
             <summary>
             Describes main information about contact
@@ -49,44 +79,54 @@
             Position which contact has in organization
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.ContactModel.CollectionInformationIds">
+        <member name="T:Notebook.DTO.Models.NoteModel">
             <summary>
-            Collection information correlated to current contact (personal call data)
+            Represent information about records in notebook
             </summary>
         </member>
-        <member name="T:Notebook.DTO.Models.Request.ContactInformationModel">
+        <member name="P:Notebook.DTO.Models.NoteModel.StartDate">
             <summary>
-            Represents contact information for call
+            Start date for current deal (meeting...)
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.PhoneNumber">
+        <member name="P:Notebook.DTO.Models.NoteModel.EndDate">
             <summary>
-            Phone number of the contact
+            End date for current deal (meeting...)
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Email">
+        <member name="P:Notebook.DTO.Models.NoteModel.Theme">
             <summary>
-            Email of the contact
+            Theme of the deal (meeting...)
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Skype">
+        <member name="P:Notebook.DTO.Models.NoteModel.Place">
             <summary>
-            Skype of the contact
+            Place for the meeting (deal...)
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Other">
+        <member name="P:Notebook.DTO.Models.NoteModel.IsComplete">
             <summary>
-            Additional information
+            Indicates whether record was completed or not
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.ContactId">
+        <member name="P:Notebook.DTO.Models.NoteModel.RecordTypeId">
             <summary>
-            Id of the contact
+            Represent type of record 
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.ContactInformationModel.Contact">
+        <member name="P:Notebook.DTO.Models.NoteModel.ContactIds">
             <summary>
-            Reference to contact data
+            Assigned people for current meeting
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.ContactCreateModel">
+            <summary>
+            Reprezent Contact model
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.CreateContactInformationModel">
+            <summary>
+            Represents contact information list for call
             </summary>
         </member>
         <member name="T:Notebook.DTO.Models.Request.ContactPortfolioListModel">
@@ -99,49 +139,9 @@
             List of contact information
             </summary>
         </member>
-        <member name="T:Notebook.DTO.Models.Request.NoteModel">
+        <member name="T:Notebook.DTO.Models.Request.NotePortfolioListModel">
             <summary>
             Represent information about records in notebook
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.StartDate">
-            <summary>
-            Start date for current deal (meeting...)
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.EndDate">
-            <summary>
-            End date for current deal (meeting...)
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.Theme">
-            <summary>
-            Theme of the deal (meeting...)
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.Place">
-            <summary>
-            Place for the meeting (deal...)
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.IsDeleted">
-            <summary>
-            Indicates whether record was deleted or not
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.IsComplete">
-            <summary>
-            Indicates whether record was completed or not
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.RecordTypeId">
-            <summary>
-            Represent type of record 
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.NoteModel.ContactIds">
-            <summary>
-            Assigned people for current meeting
             </summary>
         </member>
         <member name="T:Notebook.DTO.Models.Request.RecordTypeModel">
@@ -169,6 +169,11 @@
             Description for record 
             </summary>
         </member>
+        <member name="P:Notebook.DTO.Models.Responce.AddNewContact.Id">
+            <summary>
+            Id of contact
+            </summary>
+        </member>
         <member name="T:Notebook.DTO.Models.Response.ContactInformationListModel">
             <summary>
             Represent a collection of contact information
@@ -177,6 +182,16 @@
         <member name="F:Notebook.DTO.Models.Response.ContactInformationListModel.ContactInformationList">
             <summary>
             Collection of contact information
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.ContactInformationResponseModel">
+            <summary>
+            Information with id of entity
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.ContactInformationResponseModel.Id">
+            <summary>
+            Id of info record
             </summary>
         </member>
     </members>

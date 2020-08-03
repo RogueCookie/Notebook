@@ -7,7 +7,7 @@ namespace Notebook.DTO.Models
     /// <summary>
     /// Describes main information about contact
     /// </summary>
-    public abstract class ContactModel : BaseModel
+    public abstract class ContactModel 
     {
         /// <summary>
         /// First name of the contact

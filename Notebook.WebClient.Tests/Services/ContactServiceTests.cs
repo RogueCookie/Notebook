@@ -4,11 +4,14 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Notebook.Database;
 using Notebook.Domain.Entity;
+using Notebook.DTO.Models.Request;
 using Notebook.WebClient.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Notebook.DTO.Models.Responce;
+using Notebook.DTO.Models.Response;
 using Xunit;
 
 namespace Notebook.WebClient.Tests.Services
@@ -59,24 +62,46 @@ namespace Notebook.WebClient.Tests.Services
         }
 
         [Fact]
+        public async Task UpdateContactInfo_WhenUpdated_RefreshEntityExpected()
+        {
+            // Arrange
+            var initContact = InitContact();
+            var contactId =await _service.AddContactAsync(initContact);
+            var info = InitContactInformation(contactId);
+            var firstInfo = info.FirstOrDefault();
+
+            // Act
+            var addedInfo = await _service.AddContactInformationAsync(firstInfo);
+            var result = await _service.GetCurrentContactInformationResponseAsync(addedInfo);
+            result.Other = "updated info";
+            await _service.UpdateContactInformation(result);
+            var infoFromDb = _context.ContactInformations.FirstOrDefault(x =>x.Id == result.Id);
+            
+            // Assert
+            Assert.NotEqual(firstInfo.Other, infoFromDb.Other);
+            Assert.Equal(result.Other, infoFromDb.Other);
+
+        }
+
+        [Fact]
         public async Task AddContactInformationAsync_WhenAdded_AddedContactInformationExpected()
         {
             // Arrange
             var initContact = InitContact();
-            await _service.AddContactAsync(initContact);
-            var newContactInformation = InitContactInformation(initContact.Id);
+            var addedContact = await _service.AddContactAsync(initContact);
+            var newContactInformation = InitContactInformation(addedContact);
+            await _service.AddBulkContactInformationAsync(newContactInformation);
 
             // Act
-            var allContactInformationBefore = await _service.GetAllInfoForContactAsync(initContact.Id);
+            var allContactInformationBefore = await _service.GetAllInfoForContactAsync(addedContact);
             await _service.AddBulkContactInformationAsync(newContactInformation);
-            var allContactInformationAfter = await _service.GetAllInfoForContactAsync(initContact.Id);
-            var contactId = allContactInformationAfter.FirstOrDefault();
-            
-            // Assert
+            var allContactInformationAfter = await _service.GetAllInfoForContactAsync(addedContact);
+            var contactInformationResponse = allContactInformationAfter.FirstOrDefault();
+
+            // Assert 
             Assert.NotNull(allContactInformationAfter);
             Assert.NotEqual(allContactInformationBefore.Count, allContactInformationAfter.Count);
-            Assert.Equal(initContact.Id, contactId.Id);
-
+            Assert.Equal(addedContact, contactInformationResponse.Id);
         }
 
         [Fact]
@@ -84,19 +109,17 @@ namespace Notebook.WebClient.Tests.Services
         {
             // Arrange
             var initContact = InitContact();
-            await _service.AddContactAsync(initContact);
-            var newContactInformation = InitContactInformation(initContact.Id);
+            var contactId = await _service.AddContactAsync(initContact);
+            var newContactInformation = InitContactInformation(contactId);
 
             //Act
-            var allContactInformationBefore = await _service.GetAllInfoForContactAsync(initContact.Id);  //TODO опять несколько методов может extension для контакт инфо добавить?
+            var allContactInformationBefore = _context.ContactInformations.Count(x => x.ContactId == contactId);
             await _service.AddBulkContactInformationAsync(newContactInformation);
-            var allContactInformationAfter = await _service.GetAllInfoForContactAsync(initContact.Id);
-            var contactId = allContactInformationAfter.FirstOrDefault();
+            var allContactInformationAfter = _context.ContactInformations.Count(x => x.ContactId == contactId);
 
             // Assert
-            Assert.NotNull(allContactInformationAfter);
-            Assert.NotEqual(allContactInformationBefore.Count, allContactInformationAfter.Count);
-            Assert.Equal(initContact.Id, contactId.Id);
+            Assert.NotEqual(allContactInformationBefore, allContactInformationAfter);
+            Assert.Equal(newContactInformation.FirstOrDefault().ContactId, contactId);
         }
 
         [Fact]
@@ -104,14 +127,15 @@ namespace Notebook.WebClient.Tests.Services
         {
             // Arrange
             var initContact = InitContact();
-            await _service.AddContactAsync(initContact);
+            var newContactId =await _service.AddContactAsync(initContact);
 
             // Act
-            var contactInDb = await _service.GetContactByIdAsync(initContact.Id);
+            var contactInDb = await _service.GetContactByIdAsync(newContactId);
+            var addedContact = _context.Contacts.FirstOrDefault(x => x.Id == newContactId);
             
             // Assert
             Assert.NotNull(contactInDb);
-            Assert.Equal(initContact.Id, contactInDb.Id);
+            Assert.Equal(newContactId, addedContact.Id);
         }
 
         [Fact]
@@ -119,37 +143,14 @@ namespace Notebook.WebClient.Tests.Services
         {
             // Arrange
             var initContact = InitContact();
-            var listContacts = new List<Contact> { initContact };
-            foreach (var item in listContacts)
-            {
-                await _service.AddContactAsync(item);
-            }
-            
+            var savesContId = await _service.AddContactAsync(InitContact());
+
             // Act
             var contactInDb = await _service.GetAllContactsAsync();
 
             // Assert
-            Assert.NotNull(listContacts);
-        }
-
-        [Fact]
-        public async Task GetAllInfoForContactAsync_WhenGet_GotListContactInformation()
-        {
-            
-            // Arrange
-            var initContact = InitContact();
-            await _service.AddContactAsync(initContact);
-
-            var newContactInformation = InitContactInformation(initContact.Id);
-
-            // Act
-            var allContactInformationBefore = await _service.GetAllInfoForContactAsync(initContact.Id);
-            await _service.AddBulkContactInformationAsync(newContactInformation);
-            var allContactInformationAfter = await _service.GetAllInfoForContactAsync(initContact.Id);
-           
-            // Assert
-            Assert.NotEmpty(allContactInformationAfter);
-            Assert.NotEqual(allContactInformationBefore, allContactInformationAfter);
+            Assert.NotNull(contactInDb);
+            Assert.NotEmpty(contactInDb);
         }
 
         [Fact]
@@ -157,42 +158,65 @@ namespace Notebook.WebClient.Tests.Services
         {
             // Arrange
             var initContact = InitContact();
-            await _service.AddContactAsync(initContact);
-            var newContactInformation = InitContactInformation(initContact.Id);
+            var contId = await _service.AddContactAsync(initContact);
+            var newContactInformation = InitContactInformation(contId);
+            await _service.AddBulkContactInformationAsync(newContactInformation);
+            var addedInfo = _context.ContactInformations.Count(x => x.ContactId == contId);
 
             // Act
             var resultBefore = _context.Contacts.Count();
-            await _service.RemoveContactAsync(initContact.Id);
+            await _service.RemoveContactAsync(contId);
             var resultAfter = _context.Contacts.Count();
-            
+            var infoAfter = _context.ContactInformations.Count(x => x.ContactId == contId);
+
             // Assert
             Assert.NotEqual(resultBefore, resultAfter);
+            Assert.NotEqual(addedInfo, infoAfter);
         }
 
-        private static Contact InitContact()
+        [Fact]
+        public async Task RemoveCurrentContactInformation_WhenRemoved_ExpectedRemovedInformationById()
         {
-            var initContact = new Contact
+            // Arrange
+            var initContact = InitContact();
+            var contId = await _service.AddContactAsync(initContact);
+            var newContactInformation = InitContactInformation(contId);
+            await _service.AddBulkContactInformationAsync(newContactInformation);
+            var infoForContact = _context.ContactInformations.FirstOrDefault(x => x.ContactId == contId);
+
+            // Act
+            var infoBefore = _context.ContactInformations.Count(x => x.ContactId == contId);
+            await _service.RemoveCurrentContactInformationAsync(infoForContact.Id);
+            var infoAfter = _context.ContactInformations.Count(x => x.ContactId == contId);
+
+            // Assert
+            Assert.NotEqual(infoBefore, infoAfter);
+        }
+
+
+        private static ContactCreateModel InitContact()
+        {
+            var initContact = new ContactCreateModel()
             {
                 FirstName = "Lera",
                 BirthDate = new DateTime(1989, 1, 15),
                 LastName = "dKi",
                 OrganizationName = "Ara"
-
             };
             return initContact;
         }
 
-        private static IEnumerable<ContactInformation> InitContactInformation(long contactId)
+        private static IEnumerable<ContactInformationRequestModel> InitContactInformation(long contactId)
         {
-            var contactInfo = new List<ContactInformation>
+            var contactInfo = new List<ContactInformationRequestModel>
             {
-                new ContactInformation
+                new ContactInformationRequestModel()
                 {
                     ContactId = contactId,
                     PhoneNumber = "89527906422",
                     Skype = "skype"
                 },
-                new ContactInformation
+                new ContactInformationRequestModel()
                 {
                     ContactId = contactId,
                     PhoneNumber = "891127906433",

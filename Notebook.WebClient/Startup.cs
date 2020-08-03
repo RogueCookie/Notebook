@@ -54,13 +54,13 @@ namespace Notebook.WebClient
             services.AddScoped<ContactService>();
             services.AddScoped<NotebookService>();
             //*services.AddAutoMapper(typeof(Startup));
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
+            //var mappingConfig = new MapperConfiguration(mc =>
+            //{
+            //    mc.AddProfile(new MappingProfile());
+            //});
 
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            //IMapper mapper = mappingConfig.CreateMapper();
+            //services.AddSingleton(mapper);
 
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
