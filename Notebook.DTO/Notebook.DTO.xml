@@ -154,16 +154,6 @@
             Represent information about records in notebook
             </summary>
         </member>
-        <member name="T:Notebook.DTO.Models.Response.AddNewContact">
-            <summary>
-            Contact model with Id
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Response.AddNewContact.Id">
-            <summary>
-            Id of contact
-            </summary>
-        </member>
         <member name="T:Notebook.DTO.Models.Response.ContactInformationResponseModel">
             <summary>
             Information with id of entity
@@ -182,6 +172,16 @@
         <member name="P:Notebook.DTO.Models.Response.NoteCreateResponseModel.Id">
             <summary>
             Id of record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.ResponseContact">
+            <summary>
+            Contact model with Id
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.ResponseContact.Id">
+            <summary>
+            Id of contact
             </summary>
         </member>
         <member name="P:Notebook.DTO.Models.Response.UpdateContactInNotes.Id">

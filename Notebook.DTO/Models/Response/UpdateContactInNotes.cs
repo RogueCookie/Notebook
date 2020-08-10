@@ -9,6 +9,6 @@ namespace Notebook.DTO.Models.Response
         /// </summary>
         public long Id { get; set; }
 
-        public List<AddNewContact> Contacts { get; set; }
+        public List<ResponseContact> Contacts { get; set; }
     }
 }

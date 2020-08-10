@@ -23,7 +23,8 @@ namespace Notebook.WebClient.Extension
                 Patronymic = contact.Patronymic,
                 BirthDate = contact.BirthDate,
                 OrganizationName = contact.OrganizationName,
-                Position = contact.Position
+                Position = contact.Position,
+                
             };
             return result;
         }
@@ -33,9 +34,9 @@ namespace Notebook.WebClient.Extension
         /// </summary>
         /// <param name="model">Contact entity</param>
         /// <returns>Adapted model</returns>
-        public static AddNewContact AdaptToAddNewContactModel(this Contact model)
+        public static ResponseContact AdaptToAddNewContactModel(this Contact model)
         {
-            var result = new AddNewContact()
+            var result = new ResponseContact()
             {
                 Id = model.Id,
                 FirstName = model.FirstName,

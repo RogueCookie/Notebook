@@ -37,9 +37,9 @@ namespace Notebook.WebClient.Services
             {
                 var adaptToEntity = newContact.AdaptToContact();
                 await _context.Contacts.AddAsync(adaptToEntity);
-
                 await _context.SaveChangesAsync();
-                _logger.LogInformation($"Contact with name {newContact.FirstName} was successfully added with Id {adaptToEntity.Id}");
+                _logger.LogInformation(
+                    $"Contact with name {newContact.FirstName} was successfully added with Id {adaptToEntity.Id}");
                 return adaptToEntity.Id;
             }
             catch (Exception exception)
@@ -47,60 +47,6 @@ namespace Notebook.WebClient.Services
                 _logger.LogError($"Cannot add contact with name {newContact.FirstName}",
                     exception);
                 throw;
-            }
-        }
-
-        /// <summary>
-        /// Add contact new information about contact
-        /// </summary>
-        /// <param name="newContactInformation">New information entity about contact</param>
-        /// <returns>Id of contact to whom was added new information</returns>
-        public async Task<long> AddContactInformationAsync(ContactInformationRequestModel newContactInformation)
-        {
-            try
-            {
-                var adaptedModelToEntity = newContactInformation.AdaptToContactInfo();
-                await _context.ContactInformations.AddAsync(adaptedModelToEntity);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation(
-                    $"New information added to contact with id {adaptedModelToEntity.ContactId}");
-                return newContactInformation.ContactId;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError($"Cannot add information for contact {newContactInformation.ContactId}",
-                    exception);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Add list of contact information
-        /// </summary>
-        /// <param name="newContactsInformation"></param>
-        /// <returns>Whether list of info added successfully or not</returns>
-        public async Task<bool> AddBulkContactInformationAsync(IEnumerable<ContactInformationRequestModel> newContactsInformation)
-        {
-            try
-            {
-                foreach (var contactInfo in newContactsInformation)
-                {
-                    var adaptedModelToEntity = contactInfo.AdaptToContactInfo();
-                    await _context.ContactInformations.AddAsync(adaptedModelToEntity);
-                    await _context.SaveChangesAsync();
-                }
-
-                return true;
-            }
-            catch (Exception exception)
-            {
-                foreach (var contactInfo in newContactsInformation)
-                {
-                    _logger.LogError($"Cannot add list information to contact {contactInfo.ContactId}",
-                        exception);
-                }
-
-                return false;
             }
         }
 
@@ -114,14 +60,15 @@ namespace Notebook.WebClient.Services
             try
             {
                 var contact = await _context.Contacts
-                    //.Include(x => x.CollectionInformations)
+                    .Include(x => x.CollectionInformations)
                     .FirstOrDefaultAsync(contact => contact.Id == contactId);
                 if (contact != null)
                 {
                     var result = contact.AdaptToContactCreateModel();
                     return result;
                 }
-                return  new ContactCreateModel();
+
+                return new ContactCreateModel();
                 _logger.LogInformation($"Contact with id {contactId} is not exist");
             }
             catch (Exception exception)
@@ -129,7 +76,7 @@ namespace Notebook.WebClient.Services
                 _logger.LogError($"Cannot find contact with Id {contactId}", exception);
                 throw;
             }
-           
+
         }
 
         /// <summary>
@@ -137,7 +84,7 @@ namespace Notebook.WebClient.Services
         /// </summary>
         /// <param name="contactId">Id of contact</param>
         /// <returns>Contact entity with particular ID</returns>
-        public async Task<AddNewContact> GetContactWithIdAsync(long contactId)
+        public async Task<ResponseContact> GetContactWithIdAsync(long contactId)
         {
             var contact = await _context.Contacts
                 .Include(x => x.CollectionInformations)
@@ -150,25 +97,11 @@ namespace Notebook.WebClient.Services
         /// Get ordered contacts
         /// </summary>
         /// <returns>List of ordered contacts</returns>
-        public async Task<List<AddNewContact>> GetAllContactsAsync()
+        public async Task<List<ResponseContact>> GetAllContactsAsync()
         {
             var contacts = await _context.Contacts
                 .GetOrderedContacts().ToListAsync();
-            var result = contacts.Select(x => x.AdaptToAddNewContactModel()).ToList();
-            return result;
-        }
-
-        /// <summary>
-        /// Get all contact information for current contact
-        /// </summary>
-        /// <param name="contactId">Id of contact</param>
-        /// <returns>List of information for particular contact</returns>
-        public async Task<List<ContactInformationResponseModel>> GetAllInfoForContactAsync(long contactId)
-        {
-            var info = await _context.ContactInformations
-                .Where(x => x.ContactId == contactId)
-                .ToListAsync();
-            var result = info.Select(x => x.AdaptToContactInformationResponseModel()).ToList();
+            var result = contacts.Select(x => x.AdaptToAddNewContactModel()).ToList(); //TODO косяк с инфрматио адапт
             return result;
         }
 
@@ -202,83 +135,13 @@ namespace Notebook.WebClient.Services
             }
         }
 
-        /// <summary>
-        /// Get current record contact information
-        /// </summary>
-        /// <param name="contactInfoId">Id of contact information</param>
-        /// <returns>Contact Information entity</returns>
-        public async Task<ContactInformationRequestModel> GetCurrentContactInformationRequestAsync(long contactInfoId)
-        {
-            try
-            {
-               var infoFromDb =  await _context.ContactInformations.FirstOrDefaultAsync(x => x.Id == contactInfoId);
-               var result = infoFromDb.AdaptToContactInformationRequestModel();
-               return result;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError($"Couldn't find information  with id {contactInfoId}", exception);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Get contactInformationResponse model
-        /// </summary>
-        /// <param name="contactInfoId">Id of contact info</param>
-        /// <returns></returns>
-        public async Task<ContactInformationResponseModel> GetCurrentContactInformationResponseAsync(long contactInfoId)
-        {
-            try
-            {
-                var infoFromDb = await _context.ContactInformations.FirstOrDefaultAsync(x => x.Id == contactInfoId);
-                var result = infoFromDb.AdaptToContactInformationResponseModel();
-                return result;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError($"Couldn't find information  with id {contactInfoId}", exception);
-                throw;
-            }
-        }
-
-
-        /// <summary>
-        /// Update information
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<ContactInformationResponseModel> UpdateContactInformation(ContactInformationResponseModel model)
-        {
-            try
-            {
-                var info = await _context.ContactInformations.FirstOrDefaultAsync(x => x.Id == model.Id);
-                info.Id = model.Id;
-                info.ContactId = model.ContactId;
-                info.PhoneNumber = model.PhoneNumber;
-                info.Email = model.Email;
-                info.Skype = model.Skype;
-                info.Other = model.Other;
-
-                _context.ContactInformations.Update(info);
-                await _context.SaveChangesAsync();
-
-                var changedModel = info.AdaptToContactInformationResponseModel();
-                return changedModel;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError($"Couldn't update information with id {model.Id}", exception);
-                throw;
-            }
-        }
 
         /// <summary>
         /// Update particular contact
         /// </summary>
         /// <param name="contact">Entity for updates</param>
         /// <returns>Updated model</returns>
-        public async Task<ContactCreateModel> UpdateContact(AddNewContact contact)
+        public async Task<ContactCreateModel> UpdateContact(ResponseContact contact)
         {
             try
             {
@@ -299,34 +162,6 @@ namespace Notebook.WebClient.Services
             {
                 _logger.LogError($"Couldn't update contact with id {contact.Id}", exception);
                 throw;
-            }
-        }
-
-        /// <summary>
-        /// Remove particular contact information 
-        /// </summary>
-        /// <param name="contInfoId">Id of information record</param>
-        /// <returns>Whether the contact information deleted successfully</returns>
-        public async Task<bool> RemoveCurrentContactInformationAsync(long contInfoId)
-        {
-            try
-            {
-                var currentInformation = await _context.ContactInformations.FirstOrDefaultAsync(x => x.Id == contInfoId);
-                if (currentInformation == null)
-                {
-                    _logger.LogInformation($"Contact information with id {contInfoId} wasn't found");
-                    return false;
-                }
-
-                _context.ContactInformations.Remove(currentInformation);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation($"Contact information with Id {contInfoId} for contact was successfully removed");
-                return true;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError($"Unable to remove contact information with Id {contInfoId}", exception);
-                return false;
             }
         }
     }

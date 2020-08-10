@@ -72,8 +72,7 @@ namespace Notebook.WebClient.Services
         /// <returns>Record entity</returns>
         public async Task<NoteCreateModel> GetRecordByIdAsync(long recordId)
         {
-            var noteFromDb = await _context.Records
-                .Include(c => c.RecordsToContacts)
+            var noteFromDb = await _context.Records.GetNotDeleteRecords()
                 .FirstOrDefaultAsync(x => x.Id == recordId);
             var adaptToModel = noteFromDb.AdaptToNoteCreateModel();
             return adaptToModel;
@@ -91,9 +90,6 @@ namespace Notebook.WebClient.Services
             {
                 var item = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
                 item.IsComplete = isCompleted;
-                //var adaptToEntity = item.AdaptToRecord();
-                //adaptToEntity.Id = recordId;
-                //_context.Records.Update(adaptToEntity);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation($"Record with Id {recordId} was successfully mark as Completed = {isCompleted}");
                  
@@ -116,8 +112,7 @@ namespace Notebook.WebClient.Services
         {
             try
             {
-                var item = await _context.Records
-                    .Include(c => c.RecordsToContacts) //TODO include надо ли тут притаскивать удаление связей рекорд ту контакт
+                var item = await _context.Records.GetNotDeleteRecords()
                     .FirstOrDefaultAsync(x => x.Id == recordId);
                
                 if (item != null)
@@ -129,7 +124,7 @@ namespace Notebook.WebClient.Services
                     return true;
                 }
 
-                return false; //TODO i add check for null
+                return false; 
             }
             catch (Exception exception)
             {

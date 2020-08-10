@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Logging;
 using Notebook.DTO.Models.Request;
 using Notebook.DTO.Models.Response;
 using Notebook.WebClient.Services;
@@ -17,13 +16,13 @@ namespace Notebook.WebClient.Controllers
     public class NotebookController : Controller
     {
         private readonly NotebookService _notebookService;
-        private readonly ILogger<NotebookService> _logger;
+       // private readonly ILogger<NotebookService> _logger;
 
 
-        public NotebookController(NotebookService notebookService, ILogger<NotebookService> logger)
+        public NotebookController(NotebookService notebookService/*, ILogger<NotebookService> logger*/)
         {
             _notebookService = notebookService ?? throw new ArgumentNullException(nameof(notebookService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>

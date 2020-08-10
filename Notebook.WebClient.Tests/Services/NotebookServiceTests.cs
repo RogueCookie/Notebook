@@ -166,7 +166,6 @@ namespace Notebook.WebClient.Tests.Services
             // Act
             var updatedModel = await _service.UpdateRecordAsync(adaptModel);
 
-
             // Assert
             Assert.NotEqual(initRecord.Place, updatedModel.Place);
         }
@@ -307,7 +306,7 @@ namespace Notebook.WebClient.Tests.Services
             //    !contactAfter.Except(contactBefore).Any(); 
             //Assert.Collection(contactBefore, x => contactAfter.Contains(x));
             Assert.True(res);
-            Assert.True(contactAfter.Except(contactBefore).Any()); //id after not contains ид before
+            Assert.True(contactAfter.Except(contactBefore).Any()); //id after not contains id before
            
         }
 

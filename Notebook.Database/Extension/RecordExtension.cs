@@ -18,6 +18,7 @@ namespace Notebook.Database.Extension
         {
             return records
                 .Include(x => x.RecordType)
+                .Include(c => c.RecordsToContacts) 
                 .Where(x => x.IsDeleted == false )
                 .OrderByDescending(x => x.CreatedAt);
         }

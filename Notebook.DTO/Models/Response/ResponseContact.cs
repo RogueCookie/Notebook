@@ -3,7 +3,7 @@
     /// <summary>
     /// Contact model with Id
     /// </summary>
-    public class AddNewContact : ContactModel
+    public class ResponseContact : ContactModel
     {
         /// <summary>
         /// Id of contact

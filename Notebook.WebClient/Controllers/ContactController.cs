@@ -18,11 +18,13 @@ namespace Notebook.WebClient.Controllers
     {
         private readonly ILogger<ContactController> _logger;
         private readonly ContactService _contactService;
+        private readonly ContactInformationService _informationService;
 
-        public ContactController(ILogger<ContactController> logger, ContactService contactService)
+        public ContactController(ILogger<ContactController> logger, ContactService contactService, ContactInformationService  informationService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _contactService = contactService ?? throw new ArgumentNullException(nameof(contactService));
+            _informationService = informationService ?? throw new ArgumentNullException(nameof(informationService));
         }
 
         /// <summary>
@@ -30,8 +32,8 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <returns>All not deleted contacts</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(List<AddNewContact>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<List<AddNewContact>>> GetAllContacts() 
+        [ProducesResponseType(typeof(List<ResponseContact>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<List<ResponseContact>>> GetAllContacts() 
         {
             var contacts = await _contactService.GetAllContactsAsync();
             if (contacts == null)
@@ -71,7 +73,7 @@ namespace Notebook.WebClient.Controllers
         [ProducesResponseType(typeof(IEnumerable<ContactInformationRequestModel>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ContactInformationRequestModel>>> GetDetails([FromQuery] long contactId)
         {
-            var contactInfo = await  _contactService.GetAllInfoForContactAsync(contactId);
+            var contactInfo = await  _informationService.GetAllInfoForContactAsync(contactId);
 
             return Ok(contactInfo);
         }
@@ -106,7 +108,7 @@ namespace Notebook.WebClient.Controllers
         {
             if (ModelState.IsValid) 
             {
-                var contactId = await _contactService.AddContactInformationAsync(model);
+                var contactId = await _informationService.AddContactInformationAsync(model);
 
                 return Ok($"New information was added with id {contactId}"); 
             }
@@ -118,9 +120,9 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <param name="model">Entity for update</param>
         /// <returns>An ActionResult of type ContactCreateModel</returns>
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ContactCreateModel>> EditContact([FromQuery] AddNewContact model)
+        public async Task<ActionResult<ContactCreateModel>> EditContact([FromQuery] ResponseContact model)
         {
             var contact = await _contactService.UpdateContact(model);
             return Ok(contact);
@@ -136,7 +138,7 @@ namespace Notebook.WebClient.Controllers
         [ProducesResponseType(typeof(ContactInformationResponseModel), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ContactInformationResponseModel>> EditContactInfo([FromBody]ContactInformationResponseModel model)
         {
-            var infoFromService = await _contactService.UpdateContactInformation(model);
+            var infoFromService = await _informationService.UpdateContactInformation(model);
             return Ok(infoFromService);
         }
 
@@ -173,7 +175,7 @@ namespace Notebook.WebClient.Controllers
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<bool>> RemoveContactInformation([FromQuery]long contactInfoId)
         {
-            var isRemovedInfo = await _contactService.RemoveCurrentContactInformationAsync(contactInfoId);
+            var isRemovedInfo = await _informationService.RemoveCurrentContactInformationAsync(contactInfoId);
             if (!isRemovedInfo)
             {
                 _logger.LogError($"Contact information with id {contactInfoId} can't be removed");

@@ -51,6 +51,7 @@ namespace Notebook.WebClient
 
             services.AddScoped<ContactService>();
             services.AddScoped<NotebookService>();
+            services.AddScoped<ContactInformationService>();
             
             // Register the Swagger generator
             services.AddSwaggerGen(c =>

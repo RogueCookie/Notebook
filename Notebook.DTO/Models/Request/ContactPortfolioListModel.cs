@@ -11,6 +11,6 @@ namespace Notebook.DTO.Models.Request
         /// <summary>
         /// List of contact information
         /// </summary>
-        public IEnumerable<AddNewContact> ContactPortfolioModels;
+        public IEnumerable<ResponseContact> ContactPortfolioModels;
     }
 }

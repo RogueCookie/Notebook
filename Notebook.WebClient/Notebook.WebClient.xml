@@ -39,7 +39,7 @@
             <param name="model">New contact information entity</param>
             <returns>An ActionResult of type ContactInformationModel</returns>
         </member>
-        <member name="M:Notebook.WebClient.Controllers.ContactController.EditContact(Notebook.DTO.Models.Response.AddNewContact)">
+        <member name="M:Notebook.WebClient.Controllers.ContactController.EditContact(Notebook.DTO.Models.Response.ResponseContact)">
             <summary>
             Update particular contact
             </summary>
@@ -197,6 +197,55 @@
             <param name="model">NoteCreate model</param>
             <returns>Adapted entity</returns>
         </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.AddContactInformationAsync(Notebook.DTO.Models.Request.ContactInformationRequestModel)">
+            <summary>
+            Add contact new information about contact
+            </summary>
+            <param name="newContactInformation">New information entity about contact</param>
+            <returns>Id of contact to whom was added new information</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.AddBulkContactInformationAsync(System.Collections.Generic.IEnumerable{Notebook.DTO.Models.Request.ContactInformationRequestModel})">
+            <summary>
+            Add list of contact information
+            </summary>
+            <param name="newContactsInformation"></param>
+            <returns>Whether list of info added successfully or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.GetAllInfoForContactAsync(System.Int64)">
+            <summary>
+            Get all contact information for current contact
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>List of information for particular contact</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.GetCurrentContactInformationRequestAsync(System.Int64)">
+            <summary>
+            Get current record contact information
+            </summary>
+            <param name="contactInfoId">Id of contact information</param>
+            <returns>Contact Information entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.RemoveCurrentContactInformationAsync(System.Int64)">
+            <summary>
+            Remove particular contact information 
+            </summary>
+            <param name="contInfoId">Id of information record</param>
+            <returns>Whether the contact information deleted successfully</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.GetCurrentContactInformationResponseAsync(System.Int64)">
+            <summary>
+            Get contactInformationResponse model
+            </summary>
+            <param name="contactInfoId">Id of contact info</param>
+            <returns></returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.UpdateContactInformation(Notebook.DTO.Models.Response.ContactInformationResponseModel)">
+            <summary>
+            Update information
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:Notebook.WebClient.Services.ContactService">
             <summary>
             Manipulation with contact entities
@@ -208,20 +257,6 @@
             </summary>
             <param name="newContact">New contact</param>
             <returns>Id of the new added contact entity</returns>
-        </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.AddContactInformationAsync(Notebook.DTO.Models.Request.ContactInformationRequestModel)">
-            <summary>
-            Add contact new information about contact
-            </summary>
-            <param name="newContactInformation">New information entity about contact</param>
-            <returns>Id of contact to whom was added new information</returns>
-        </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.AddBulkContactInformationAsync(System.Collections.Generic.IEnumerable{Notebook.DTO.Models.Request.ContactInformationRequestModel})">
-            <summary>
-            Add list of contact information
-            </summary>
-            <param name="newContactsInformation"></param>
-            <returns>Whether list of info added successfully or not</returns>
         </member>
         <member name="M:Notebook.WebClient.Services.ContactService.GetContactByIdAsync(System.Int64)">
             <summary>
@@ -243,13 +278,6 @@
             </summary>
             <returns>List of ordered contacts</returns>
         </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.GetAllInfoForContactAsync(System.Int64)">
-            <summary>
-            Get all contact information for current contact
-            </summary>
-            <param name="contactId">Id of contact</param>
-            <returns>List of information for particular contact</returns>
-        </member>
         <member name="M:Notebook.WebClient.Services.ContactService.RemoveContactAsync(System.Int64)">
             <summary>
             Remove contact with all correlate to him contact information
@@ -257,40 +285,12 @@
             <param name="contactId">Id of contact</param>
             <returns>Whether the contact deleted successfully or not</returns>
         </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.GetCurrentContactInformationRequestAsync(System.Int64)">
-            <summary>
-            Get current record contact information
-            </summary>
-            <param name="contactInfoId">Id of contact information</param>
-            <returns>Contact Information entity</returns>
-        </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.GetCurrentContactInformationResponseAsync(System.Int64)">
-            <summary>
-            Get contactInformationResponse model
-            </summary>
-            <param name="contactInfoId">Id of contact info</param>
-            <returns></returns>
-        </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.UpdateContactInformation(Notebook.DTO.Models.Response.ContactInformationResponseModel)">
-            <summary>
-            Update information
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.UpdateContact(Notebook.DTO.Models.Response.AddNewContact)">
+        <member name="M:Notebook.WebClient.Services.ContactService.UpdateContact(Notebook.DTO.Models.Response.ResponseContact)">
             <summary>
             Update particular contact
             </summary>
             <param name="contact">Entity for updates</param>
             <returns>Updated model</returns>
-        </member>
-        <member name="M:Notebook.WebClient.Services.ContactService.RemoveCurrentContactInformationAsync(System.Int64)">
-            <summary>
-            Remove particular contact information 
-            </summary>
-            <param name="contInfoId">Id of information record</param>
-            <returns>Whether the contact information deleted successfully</returns>
         </member>
         <member name="T:Notebook.WebClient.Services.NotebookService">
             <summary>
