@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Notebook.DTO.Models;
 using Notebook.DTO.Models.Request;
-using Notebook.DTO.Models.Responce;
 using Notebook.DTO.Models.Response;
 using Notebook.WebClient.Services;
 using System;
@@ -31,7 +30,7 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <returns>All not deleted contacts</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(List<ContactCreateModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<AddNewContact>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<AddNewContact>>> GetAllContacts() 
         {
             var contacts = await _contactService.GetAllContactsAsync();
@@ -69,7 +68,7 @@ namespace Notebook.WebClient.Controllers
         /// <param name="contactId">Id of contact</param>
         /// <returns>All contact information</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ContactInformationModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ContactInformationRequestModel>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ContactInformationRequestModel>>> GetDetails([FromQuery] long contactId)
         {
             var contactInfo = await  _contactService.GetAllInfoForContactAsync(contactId);
@@ -84,7 +83,7 @@ namespace Notebook.WebClient.Controllers
         /// <returns>An ActionResult of type ContactCreateModel</returns>
         [HttpPost]
         [Consumes("application/json")]
-        [ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)] 
         public async Task<ActionResult<long>> CreateContact([FromBody]ContactCreateModel model)
         {
             if (!ModelState.IsValid)
@@ -115,22 +114,16 @@ namespace Notebook.WebClient.Controllers
         }
 
         /// <summary>
-        /// Get information for updates for particular contact
+        /// Update particular contact
         /// </summary>
-        /// <param name="contactInfoId">Id of information</param>
-        /// <returns>An ActionResult of type ContactInformationModel</returns>
+        /// <param name="model">Entity for update</param>
+        /// <returns>An ActionResult of type ContactCreateModel</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(ContactInformationModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ContactInformationModel>> EditContactInfo([FromQuery]long contactInfoId)     //TODO do we need it?
+        [ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ContactCreateModel>> EditContact([FromQuery] AddNewContact model)
         {
-            var contactInfo = await _contactService.GetCurrentContactInformationRequestAsync(contactInfoId);
-            if (contactInfo == null)
-            {
-                _logger.LogError($"Information id {contactInfoId} cannot be found");
-                return NotFound();
-            }
-
-            return Ok(contactInfo);
+            var contact = await _contactService.UpdateContact(model);
+            return Ok(contact);
         }
 
         /// <summary>
@@ -140,10 +133,10 @@ namespace Notebook.WebClient.Controllers
         /// <returns>An ActionResult of type ContactInformationModel</returns>
         [HttpPost]
         [Consumes("application/json")]
-        [ProducesResponseType(typeof(ContactInformationModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ContactInformationModel>> EditContactInfo([FromBody]ContactInformationResponseModel model)
+        [ProducesResponseType(typeof(ContactInformationResponseModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ContactInformationResponseModel>> EditContactInfo([FromBody]ContactInformationResponseModel model)
         {
-            var infoFromService = await _contactService.GetCurrentContactInformationResponseAsync(model.Id);
+            var infoFromService = await _contactService.UpdateContactInformation(model);
             return Ok(infoFromService);
         }
 
@@ -167,9 +160,8 @@ namespace Notebook.WebClient.Controllers
                 _logger.LogInformation($"Contact with id {contactId} was successfully removed");
             }
 
-            return Ok(isRemoved);
+            return Ok($"Whether contact with id {contactId} is removed {isRemoved}");
         }
-
 
         /// <summary>
         /// Delete particular information about contact
@@ -191,7 +183,7 @@ namespace Notebook.WebClient.Controllers
                 _logger.LogInformation($"Contact information with id {contactInfoId} was successfully removed");
             }
 
-            return Ok(isRemovedInfo);
+            return Ok($"Whether contact information with id {contactInfoId} is removed {isRemovedInfo}");
         }
     }
 }

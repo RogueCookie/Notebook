@@ -1,7 +1,5 @@
 ﻿using Notebook.Domain.Entity;
-using Notebook.DTO.Models;
 using Notebook.DTO.Models.Request;
-using Notebook.DTO.Models.Responce;
 using Notebook.DTO.Models.Response;
 
 namespace Notebook.WebClient.Extension

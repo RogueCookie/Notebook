@@ -121,12 +121,17 @@
         </member>
         <member name="T:Notebook.DTO.Models.Request.ContactCreateModel">
             <summary>
-            Reprezent Contact model
+            Represent Contact model
             </summary>
         </member>
         <member name="T:Notebook.DTO.Models.Request.CreateContactInformationModel">
             <summary>
             Represents contact information list for call
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.ContactInformationRequestModel">
+            <summary>
+            Represent Information without Id of record
             </summary>
         </member>
         <member name="T:Notebook.DTO.Models.Request.ContactPortfolioListModel">
@@ -139,49 +144,24 @@
             List of contact information
             </summary>
         </member>
+        <member name="T:Notebook.DTO.Models.Request.NoteCreateModel">
+            <summary>
+            Represent NoteCreate model without id of record
+            </summary>
+        </member>
         <member name="T:Notebook.DTO.Models.Request.NotePortfolioListModel">
             <summary>
             Represent information about records in notebook
             </summary>
         </member>
-        <member name="T:Notebook.DTO.Models.Request.RecordTypeModel">
+        <member name="T:Notebook.DTO.Models.Response.AddNewContact">
             <summary>
-            Describes record type information
+            Contact model with Id
             </summary>
         </member>
-        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Id">
-            <summary>
-            Id or record
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Name">
-            <summary>
-            Name of record
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Alias">
-            <summary>
-            Type of record (from enum)
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Request.RecordTypeModel.Description">
-            <summary>
-            Description for record 
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Responce.AddNewContact.Id">
+        <member name="P:Notebook.DTO.Models.Response.AddNewContact.Id">
             <summary>
             Id of contact
-            </summary>
-        </member>
-        <member name="T:Notebook.DTO.Models.Response.ContactInformationListModel">
-            <summary>
-            Represent a collection of contact information
-            </summary>
-        </member>
-        <member name="F:Notebook.DTO.Models.Response.ContactInformationListModel.ContactInformationList">
-            <summary>
-            Collection of contact information
             </summary>
         </member>
         <member name="T:Notebook.DTO.Models.Response.ContactInformationResponseModel">
@@ -192,6 +172,21 @@
         <member name="P:Notebook.DTO.Models.Response.ContactInformationResponseModel.Id">
             <summary>
             Id of info record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.NoteCreateResponseModel">
+            <summary>
+            Represent Note model
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.NoteCreateResponseModel.Id">
+            <summary>
+            Id of record
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.UpdateContactInNotes.Id">
+            <summary>
+            Id or record
             </summary>
         </member>
     </members>

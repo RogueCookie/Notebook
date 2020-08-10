@@ -1,4 +1,6 @@
-﻿using Notebook.Domain.Enum;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Notebook.Domain.Enum;
 
 namespace Notebook.Domain.Entity
 {
@@ -26,5 +28,7 @@ namespace Notebook.Domain.Entity
         /// Description for record 
         /// </summary>
         public string Description { get; set; }
+
+        public virtual ICollection<Record> Records { get; set; }
     }
 }

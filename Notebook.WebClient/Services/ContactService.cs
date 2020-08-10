@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Notebook.Database;
 using Notebook.Database.Extension;
-using Notebook.Domain.Entity;
 using Notebook.DTO.Models.Request;
-using Notebook.DTO.Models.Responce;
 using Notebook.DTO.Models.Response;
 using Notebook.WebClient.Extension;
 using System;
@@ -113,11 +111,25 @@ namespace Notebook.WebClient.Services
         /// <returns>Contact entity with particular ID</returns>
         public async Task<ContactCreateModel> GetContactByIdAsync(long contactId)
         {
-            var contact = await _context.Contacts
-                .Include(x => x.CollectionInformations)
-                .FirstOrDefaultAsync(contact => contact.Id == contactId);
-            var result = contact.AdaptToContactCreateModel();
-            return result;
+            try
+            {
+                var contact = await _context.Contacts
+                    //.Include(x => x.CollectionInformations)
+                    .FirstOrDefaultAsync(contact => contact.Id == contactId);
+                if (contact != null)
+                {
+                    var result = contact.AdaptToContactCreateModel();
+                    return result;
+                }
+                return  new ContactCreateModel();
+                _logger.LogInformation($"Contact with id {contactId} is not exist");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Cannot find contact with Id {contactId}", exception);
+                throw;
+            }
+           
         }
 
         /// <summary>
@@ -145,8 +157,6 @@ namespace Notebook.WebClient.Services
             var result = contacts.Select(x => x.AdaptToAddNewContactModel()).ToList();
             return result;
         }
-
-       
 
         /// <summary>
         /// Get all contact information for current contact
@@ -259,6 +269,35 @@ namespace Notebook.WebClient.Services
             catch (Exception exception)
             {
                 _logger.LogError($"Couldn't update information with id {model.Id}", exception);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Update particular contact
+        /// </summary>
+        /// <param name="contact">Entity for updates</param>
+        /// <returns>Updated model</returns>
+        public async Task<ContactCreateModel> UpdateContact(AddNewContact contact)
+        {
+            try
+            {
+                var newContact = await _context.Contacts.FirstOrDefaultAsync(x => x.Id == contact.Id);
+                newContact.BirthDate = contact.BirthDate;
+                newContact.FirstName = contact.FirstName;
+                newContact.LastName = contact.LastName;
+                newContact.Patronymic = contact.LastName;
+                newContact.OrganizationName = contact.OrganizationName;
+                newContact.Position = contact.Position;
+
+                _context.Contacts.Update(newContact);
+                await _context.SaveChangesAsync();
+                var adaptModel = newContact.AdaptToContactCreateModel();
+                return adaptModel;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Couldn't update contact with id {contact.Id}", exception);
                 throw;
             }
         }

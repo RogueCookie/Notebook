@@ -34,8 +34,9 @@ namespace Notebook.Database
                 .WithMany(s => s.CollectionInformations)
                 .HasForeignKey(sc => sc.ContactId);
 
-            modelBuilder.Entity<RecordsToContacts>().HasKey(kr => new {kr.ContactId, kr.RecordId} ); //состав ключ
+            modelBuilder.Entity<Record>().HasKey(x => x.Id);
 
+            modelBuilder.Entity<RecordsToContacts>().HasKey(kr => new { kr.ContactId, kr.RecordId });
             //many to many
             modelBuilder.Entity<RecordsToContacts>()
                 .HasOne(sc => sc.Contact)
@@ -48,6 +49,12 @@ namespace Notebook.Database
                 .HasForeignKey(s => s.RecordId);
 
             modelBuilder.Entity<RecordType>().HasKey("Id");
+
+            modelBuilder.Entity<RecordType>()
+                .HasMany(sc => sc.Records)
+                .WithOne(s => s.RecordType)//TODO check зачем я это написал и нужно ли оно
+                .HasForeignKey(s => s.RecordTypeId);
+
             modelBuilder.Entity<RecordType>().Property(e => e.Alias)
                 .HasConversion(
                     v => v.ToString(),

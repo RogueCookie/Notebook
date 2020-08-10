@@ -1,9 +1,9 @@
 ﻿namespace Notebook.DTO.Models.Request
 {
     /// <summary>
-    /// Represent Contact model
+    /// Represent NoteCreate model without id of record
     /// </summary>
-    public class ContactCreateModel : ContactModel
+    public class NoteCreateModel : NoteModel
     {
         
     }

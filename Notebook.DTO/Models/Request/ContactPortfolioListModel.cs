@@ -1,4 +1,4 @@
-﻿using Notebook.DTO.Models.Responce;
+﻿using Notebook.DTO.Models.Response;
 using System.Collections.Generic;
 
 namespace Notebook.DTO.Models.Request

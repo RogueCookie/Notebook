@@ -53,7 +53,12 @@ namespace Notebook.Domain.Entity
         /// <summary>
         /// Represent type of record 
         /// </summary>
-        public RecordType RecordType { get; set; }
+        public  RecordType RecordType { get; set; }
+
+        /// <summary>
+        /// need for relation
+        /// </summary>
+        public long RecordTypeId { get; set; }
 
         /// <summary>
         /// Represent relationship with contact

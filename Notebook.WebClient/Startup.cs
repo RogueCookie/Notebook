@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Notebook.Database;
-using Notebook.DTO.Mapping;
 using Notebook.WebClient.Services;
 using System;
 using System.IO;
@@ -53,15 +51,7 @@ namespace Notebook.WebClient
 
             services.AddScoped<ContactService>();
             services.AddScoped<NotebookService>();
-            //*services.AddAutoMapper(typeof(Startup));
-            //var mappingConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new MappingProfile());
-            //});
-
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
+            
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
             {
@@ -91,6 +81,7 @@ namespace Notebook.WebClient
 
             services.AddSwaggerGenNewtonsoftSupport();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)

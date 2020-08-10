@@ -1,12 +1,12 @@
 ﻿namespace Notebook.DTO.Models.Response
 {
     /// <summary>
-    /// Contact model with Id
+    /// Represent Note model
     /// </summary>
-    public class AddNewContact : ContactModel
+    public class NoteCreateResponseModel : NoteModel
     {
         /// <summary>
-        /// Id of contact
+        /// Id of record
         /// </summary>
         public long Id { get; set; }
     }

@@ -123,7 +123,7 @@ namespace Notebook.Database.Migrations
                         .HasColumnName("place")
                         .HasColumnType("text");
 
-                    b.Property<long?>("RecordTypeId")
+                    b.Property<long>("RecordTypeId")
                         .HasColumnName("record_type_id")
                         .HasColumnType("bigint");
 
@@ -226,9 +226,11 @@ namespace Notebook.Database.Migrations
             modelBuilder.Entity("Notebook.Domain.Entity.Record", b =>
                 {
                     b.HasOne("Notebook.Domain.Entity.RecordType", "RecordType")
-                        .WithMany()
+                        .WithMany("Records")
                         .HasForeignKey("RecordTypeId")
-                        .HasConstraintName("fk_records_record_types_record_type_id");
+                        .HasConstraintName("fk_records_record_types_record_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Notebook.Domain.Entity.RecordsToContacts", b =>
