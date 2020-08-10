@@ -76,7 +76,6 @@ namespace Notebook.WebClient.Services
                 _logger.LogError($"Cannot find contact with Id {contactId}", exception);
                 throw;
             }
-
         }
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace Notebook.WebClient.Services
         {
             var contacts = await _context.Contacts
                 .GetOrderedContacts().ToListAsync();
-            var result = contacts.Select(x => x.AdaptToAddNewContactModel()).ToList(); //TODO косяк с инфрматио адапт
+            var result = contacts.Select(x => x.AdaptToAddNewContactModel()).ToList();
             return result;
         }
 
@@ -115,7 +114,7 @@ namespace Notebook.WebClient.Services
             try
             {
                 var contact = await _context.Contacts
-                    .Include(info => info.CollectionInformations) // TODo check ???
+                    .Include(info => info.CollectionInformations) 
                     .FirstOrDefaultAsync(x => x.Id == contactId);
 
                 if (contact != null)

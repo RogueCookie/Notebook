@@ -52,7 +52,7 @@ namespace Notebook.Database
 
             modelBuilder.Entity<RecordType>()
                 .HasMany(sc => sc.Records)
-                .WithOne(s => s.RecordType)//TODO check зачем я это написал и нужно ли оно
+                .WithOne(s => s.RecordType)
                 .HasForeignKey(s => s.RecordTypeId);
 
             modelBuilder.Entity<RecordType>().Property(e => e.Alias)

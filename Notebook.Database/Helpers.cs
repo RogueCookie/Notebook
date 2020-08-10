@@ -12,7 +12,7 @@ namespace Notebook.Database
         /// <param name="start">Start date for taking time range</param>
         /// <param name="end">End date for taking range of time</param>
         /// <returns>Part of the filter expression which will be pass in where part</returns>
-        public static Expression<Func<Record, bool>> RecordsFilteredByDate(DateTime? start, DateTime? end)  //TODO where do we use it?
+        public static Expression<Func<Record, bool>> RecordsFilteredByDate(DateTime? start, DateTime? end)  //TODO 
         {
             Expression<Func<Record, bool>> temp = x => true; //what will be pass in .Where()
             if (start != null && end != null)
