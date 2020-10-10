@@ -32,6 +32,7 @@ namespace Notebook.WebClient
         {
             services.AddControllersWithViews(setupAction =>
             {
+                //notFound 404
             //    //setupAction.Filters.Add(
             //    //    new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
             //    //setupAction.Filters.Add(

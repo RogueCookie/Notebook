@@ -64,5 +64,7 @@ namespace Notebook.Domain.Entity
         /// Represent relationship with contact
         /// </summary>
         public virtual ICollection<RecordsToContacts> RecordsToContacts { get; set; }
+
+        public RecordPayLoad RecordPayLoadValue { get; set; }
     }
 }

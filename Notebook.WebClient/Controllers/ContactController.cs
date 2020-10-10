@@ -106,13 +106,14 @@ namespace Notebook.WebClient.Controllers
         [Consumes("application/json")]
         public async Task<ActionResult<ContactInformationModel>> CreateContactInformation([FromBody] ContactInformationRequestModel model)
         {
-            if (ModelState.IsValid) 
+            var contactId = await _informationService.AddContactInformationAsync(model);
+            if (contactId != null)
             {
-                var contactId = await _informationService.AddContactInformationAsync(model);
-
-                return Ok($"New information was added with id {contactId}"); 
+                return Ok($"New information was added with id {contactId}");
             }
-            return BadRequest();
+
+
+            return NotFound();
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace Notebook.WebClient.Controllers
         /// </summary>
         /// <param name="model">Entity for update</param>
         /// <returns>An ActionResult of type ContactCreateModel</returns>
-        [HttpPost]
+        [HttpPost()]
         [ProducesResponseType(typeof(ContactCreateModel), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ContactCreateModel>> EditContact([FromQuery] ResponseContact model)
         {

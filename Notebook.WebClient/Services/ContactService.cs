@@ -57,25 +57,12 @@ namespace Notebook.WebClient.Services
         /// <returns>Contact entity with particular ID</returns>
         public async Task<ContactCreateModel> GetContactByIdAsync(long contactId)
         {
-            try
-            {
-                var contact = await _context.Contacts
-                    .Include(x => x.CollectionInformations)
-                    .FirstOrDefaultAsync(contact => contact.Id == contactId);
-                if (contact != null)
-                {
-                    var result = contact.AdaptToContactCreateModel();
-                    return result;
-                }
+            var contact = await _context.Contacts
+                .Include(x => x.CollectionInformations)
+                .FirstOrDefaultAsync(contact => contact.Id == contactId);
 
-                return new ContactCreateModel();
-                _logger.LogInformation($"Contact with id {contactId} is not exist");
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError($"Cannot find contact with Id {contactId}", exception);
-                throw;
-            }
+            var result = contact?.AdaptToContactCreateModel();
+            return result;
         }
 
         /// <summary>
@@ -116,7 +103,7 @@ namespace Notebook.WebClient.Services
                 var contact = await _context.Contacts
                     .Include(info => info.CollectionInformations) 
                     .FirstOrDefaultAsync(x => x.Id == contactId);
-
+                //TODO what if here null i just return true...
                 if (contact != null)
                 {
                     _context.Remove(contact);
@@ -145,6 +132,7 @@ namespace Notebook.WebClient.Services
             try
             {
                 var newContact = await _context.Contacts.FirstOrDefaultAsync(x => x.Id == contact.Id);
+                //TODO what if null
                 newContact.BirthDate = contact.BirthDate;
                 newContact.FirstName = contact.FirstName;
                 newContact.LastName = contact.LastName;

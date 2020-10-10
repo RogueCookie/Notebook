@@ -4,16 +4,6 @@
         <name>Notebook.DTO</name>
     </assembly>
     <members>
-        <member name="T:Notebook.DTO.Models.BaseModel">
-            <summary>
-            Base class which property will be multiple used
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.BaseModel.Id">
-            <summary>
-            Id of the record
-            </summary>
-        </member>
         <member name="T:Notebook.DTO.Models.ContactInformationModel">
             <summary>
             Represents contact information for call
@@ -124,34 +114,14 @@
             Represent Contact model
             </summary>
         </member>
-        <member name="T:Notebook.DTO.Models.Request.CreateContactInformationModel">
-            <summary>
-            Represents contact information list for call
-            </summary>
-        </member>
         <member name="T:Notebook.DTO.Models.Request.ContactInformationRequestModel">
             <summary>
             Represent Information without Id of record
             </summary>
         </member>
-        <member name="T:Notebook.DTO.Models.Request.ContactPortfolioListModel">
-            <summary>
-            Get list of all additional contact information
-            </summary>
-        </member>
-        <member name="F:Notebook.DTO.Models.Request.ContactPortfolioListModel.ContactPortfolioModels">
-            <summary>
-            List of contact information
-            </summary>
-        </member>
         <member name="T:Notebook.DTO.Models.Request.NoteCreateModel">
             <summary>
             Represent NoteCreate model without id of record
-            </summary>
-        </member>
-        <member name="T:Notebook.DTO.Models.Request.NotePortfolioListModel">
-            <summary>
-            Represent information about records in notebook
             </summary>
         </member>
         <member name="T:Notebook.DTO.Models.Response.ContactInformationResponseModel">
@@ -182,11 +152,6 @@
         <member name="P:Notebook.DTO.Models.Response.ResponseContact.Id">
             <summary>
             Id of contact
-            </summary>
-        </member>
-        <member name="P:Notebook.DTO.Models.Response.UpdateContactInNotes.Id">
-            <summary>
-            Id or record
             </summary>
         </member>
     </members>

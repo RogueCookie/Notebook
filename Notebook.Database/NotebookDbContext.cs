@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Notebook.Domain.Entity;
 using Notebook.Domain.Enum;
 
@@ -35,6 +36,13 @@ namespace Notebook.Database
                 .HasForeignKey(sc => sc.ContactId);
 
             modelBuilder.Entity<Record>().HasKey(x => x.Id);
+
+            // allow to save in Db as a string
+            modelBuilder.Entity<Record>()
+                .Property(vs => vs.RecordPayLoadValue)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<RecordPayLoad>(v?? string.Empty)); //xчерез репозиторий проверить не возможно
 
             modelBuilder.Entity<RecordsToContacts>().HasKey(kr => new { kr.ContactId, kr.RecordId });
             //many to many

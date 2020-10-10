@@ -9,5 +9,7 @@
         /// Id of record
         /// </summary>
         public long Id { get; set; }
+
+        public string RecordPayLoadValueString { get; set; }
     }
 }

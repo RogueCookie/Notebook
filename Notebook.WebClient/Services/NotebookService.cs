@@ -52,6 +52,29 @@ namespace Notebook.WebClient.Services
         }
 
         /// <summary>
+        /// Example how to Update object which saved as a string in db
+        /// </summary>
+        public async Task<NoteCreateModel> UpdateColumnSettings(long recordId, IEnumerable<int> columnIds)
+        {
+            var record = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
+            if (record == null) return null;
+            record.RecordPayLoadValue = new RecordPayLoad(){ColumnsId =  columnIds};
+            await _context.SaveChangesAsync();
+            return null;//TODO
+        }
+
+        /// <summary>
+        /// Example how will be looks object which saved as a string in db
+        /// </summary>
+        public async Task<IEnumerable<int>> GetRecordPayload(long recordId)
+        {
+            var record = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
+            if (record == null) return new List<int>();
+
+            return record.RecordPayLoadValue.ColumnsId;
+        }
+
+        /// <summary>
         /// Get all not deleted records
         /// </summary>
         /// <param name="from">Time range from current date</param>
