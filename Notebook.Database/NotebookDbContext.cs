@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Notebook.Domain.Entity;
 using Notebook.Domain.Enum;
 
@@ -34,8 +35,16 @@ namespace Notebook.Database
                 .WithMany(s => s.CollectionInformations)
                 .HasForeignKey(sc => sc.ContactId);
 
-            modelBuilder.Entity<RecordsToContacts>().HasKey(kr => new {kr.ContactId, kr.RecordId} ); //состав ключ
+            modelBuilder.Entity<Record>().HasKey(x => x.Id);
 
+            // allow to save in Db as a string
+            modelBuilder.Entity<Record>()
+                .Property(vs => vs.RecordPayLoadValue)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<RecordPayLoad>(v?? string.Empty)); //xчерез репозиторий проверить не возможно
+
+            modelBuilder.Entity<RecordsToContacts>().HasKey(kr => new { kr.ContactId, kr.RecordId });
             //many to many
             modelBuilder.Entity<RecordsToContacts>()
                 .HasOne(sc => sc.Contact)
@@ -48,7 +57,13 @@ namespace Notebook.Database
                 .HasForeignKey(s => s.RecordId);
 
             modelBuilder.Entity<RecordType>().HasKey("Id");
-            modelBuilder.Entity<RecordType>().Property(e => e.Allias)
+
+            modelBuilder.Entity<RecordType>()
+                .HasMany(sc => sc.Records)
+                .WithOne(s => s.RecordType)
+                .HasForeignKey(s => s.RecordTypeId);
+
+            modelBuilder.Entity<RecordType>().Property(e => e.Alias)
                 .HasConversion(
                     v => v.ToString(),
                     v => (RecordTypeEnum)System.Enum.Parse(typeof(RecordTypeEnum), v, true));
@@ -57,21 +72,21 @@ namespace Notebook.Database
                 new RecordType
                 {
                     Id = (long)RecordTypeEnum.Deal,
-                    Allias = RecordTypeEnum.Deal,
+                    Alias = RecordTypeEnum.Deal,
                     Description = "Planning deal",
                     Name = "Deal"
                 },
                 new RecordType
                 {
                     Id = (long)RecordTypeEnum.Meeting,
-                    Allias = RecordTypeEnum.Meeting,
+                    Alias = RecordTypeEnum.Meeting,
                     Description = "Planning meeting",
                     Name = "Meeting"
                 },
                 new RecordType
                 {
                     Id = (long)RecordTypeEnum.Notes,
-                    Allias = RecordTypeEnum.Notes,
+                    Alias = RecordTypeEnum.Notes,
                     Description = "Notes",
                     Name = "Notes"
                 }

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Notebook.Database.Migrations
 {
-    public partial class InitiateTables : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,7 @@ namespace Notebook.Database.Migrations
                     id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(nullable: true),
-                    allias = table.Column<string>(nullable: false),
+                    alias = table.Column<string>(nullable: false),
                     description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -85,7 +85,7 @@ namespace Notebook.Database.Migrations
                     is_deleted = table.Column<bool>(nullable: false),
                     is_complete = table.Column<bool>(nullable: false),
                     created_at = table.Column<DateTime>(nullable: false),
-                    record_type_id = table.Column<long>(nullable: true)
+                    record_type_id = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,7 +96,7 @@ namespace Notebook.Database.Migrations
                         principalSchema: "notebook",
                         principalTable: "record_types",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,7 +129,7 @@ namespace Notebook.Database.Migrations
             migrationBuilder.InsertData(
                 schema: "notebook",
                 table: "record_types",
-                columns: new[] { "id", "allias", "description", "name" },
+                columns: new[] { "id", "alias", "description", "name" },
                 values: new object[,]
                 {
                     { 3L, "Deal", "Planning deal", "Deal" },

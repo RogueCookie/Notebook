@@ -123,7 +123,7 @@ namespace Notebook.Database.Migrations
                         .HasColumnName("place")
                         .HasColumnType("text");
 
-                    b.Property<long?>("RecordTypeId")
+                    b.Property<long>("RecordTypeId")
                         .HasColumnName("record_type_id")
                         .HasColumnType("bigint");
 
@@ -152,9 +152,9 @@ namespace Notebook.Database.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Allias")
+                    b.Property<string>("Alias")
                         .IsRequired()
-                        .HasColumnName("allias")
+                        .HasColumnName("alias")
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
@@ -174,21 +174,21 @@ namespace Notebook.Database.Migrations
                         new
                         {
                             Id = 3L,
-                            Allias = "Deal",
+                            Alias = "Deal",
                             Description = "Planning deal",
                             Name = "Deal"
                         },
                         new
                         {
                             Id = 1L,
-                            Allias = "Meeting",
+                            Alias = "Meeting",
                             Description = "Planning meeting",
                             Name = "Meeting"
                         },
                         new
                         {
                             Id = 2L,
-                            Allias = "Notes",
+                            Alias = "Notes",
                             Description = "Notes",
                             Name = "Notes"
                         });
@@ -226,9 +226,11 @@ namespace Notebook.Database.Migrations
             modelBuilder.Entity("Notebook.Domain.Entity.Record", b =>
                 {
                     b.HasOne("Notebook.Domain.Entity.RecordType", "RecordType")
-                        .WithMany()
+                        .WithMany("Records")
                         .HasForeignKey("RecordTypeId")
-                        .HasConstraintName("fk_records_record_types_record_type_id");
+                        .HasConstraintName("fk_records_record_types_record_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Notebook.Domain.Entity.RecordsToContacts", b =>

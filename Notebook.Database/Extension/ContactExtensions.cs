@@ -20,8 +20,5 @@ namespace Notebook.Database.Extension
                 .Include(contactInfo => contactInfo.CollectionInformations)
                 .OrderBy(x => x.FirstName);
         }
-
-
-        
     }
 }

@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Notebook.Domain.Entity
+namespace Notebook.DTO.Models
 {
     /// <summary>
-    /// Base information about all contacts
+    /// Describes main information about contact
     /// </summary>
-    public class Contact
+    public abstract class ContactModel 
     {
-        /// <summary>
-        /// Id of the contact
-        /// </summary>
-        public long Id { get; set; }
-
         /// <summary>
         /// First name of the contact
         /// </summary>
+        [Required]
         public string FirstName { get; set; }
 
         /// <summary>
@@ -31,6 +27,7 @@ namespace Notebook.Domain.Entity
         /// <summary>
         /// Birth date of the contact
         /// </summary>
+        [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
 
         /// <summary>
@@ -42,17 +39,5 @@ namespace Notebook.Domain.Entity
         /// Position which contact has in organization
         /// </summary>
         public string Position { get; set; }
-
-        // Navigation property
-
-        /// <summary>
-        /// Collection information correlated to current contact (personal call data)
-        /// </summary>
-        public virtual ICollection<ContactInformation> CollectionInformations  { get; set; }
-
-        /// <summary>
-        /// Records correlated to current contact (relationship between tables many to many)
-        /// </summary>
-        public virtual ICollection<RecordsToContacts> RecordsToContacts { get; set; }
     }
 }

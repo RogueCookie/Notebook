@@ -1,0 +1,40 @@
+﻿@model Notebook.DTO.Models.Request.ContactDetailList
+
+@{
+    ViewData["Title"] = "Contact Information";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<div>
+    <a asp-action="CreateContactInformation" asp-controller="Contact" class="button-rounded-red">Add phones</a>
+</div>
+<div id="contactInfo">
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp customTable">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Patronymic</th>
+            <th>Detail Link</th>
+            <th>Edit contact</th>
+            <th>Remove contact</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var info in Model.ContactDetails)
+        {
+            <tr>
+                <td>@info.PhoneNumber</td>
+                <td>@info.Email</td>
+                <td>@info.Skype</td>
+                <td>@info.Other</td>
+                <td><a asp-controller="Contact"asp-action="EditContactInfo" asp-route-id="@info.Id"></a></td>
+                <td>
+                    <div>@Html.ActionLink("Remove contact", "Remove", "Contact", new { id = info.Id }, new { @class = "btn btn-danger btnRadius" })</div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

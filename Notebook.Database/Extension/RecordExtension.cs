@@ -17,6 +17,8 @@ namespace Notebook.Database.Extension
         public static IQueryable<Record> GetNotDeleteRecords(this DbSet<Record> records)
         {
             return records
+                .Include(x => x.RecordType)
+                .Include(c => c.RecordsToContacts) 
                 .Where(x => x.IsDeleted == false )
                 .OrderByDescending(x => x.CreatedAt);
         }

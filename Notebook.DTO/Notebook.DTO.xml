@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Notebook.DTO</name>
+    </assembly>
+    <members>
+        <member name="T:Notebook.DTO.Models.ContactInformationModel">
+            <summary>
+            Represents contact information for call
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.PhoneNumber">
+            <summary>
+            Phone number of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.Email">
+            <summary>
+            Email of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.Skype">
+            <summary>
+            Skype of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.Other">
+            <summary>
+            Additional information
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactInformationModel.ContactId">
+            <summary>
+            Id of the contact
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.ContactModel">
+            <summary>
+            Describes main information about contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.FirstName">
+            <summary>
+            First name of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.LastName">
+            <summary>
+            Last name of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.Patronymic">
+            <summary>
+            Patronymic of the contact("otchestvo")
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.BirthDate">
+            <summary>
+            Birth date of the contact
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.OrganizationName">
+            <summary>
+            Name of Organization where contact work
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.ContactModel.Position">
+            <summary>
+            Position which contact has in organization
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.NoteModel">
+            <summary>
+            Represent information about records in notebook
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.StartDate">
+            <summary>
+            Start date for current deal (meeting...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.EndDate">
+            <summary>
+            End date for current deal (meeting...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.Theme">
+            <summary>
+            Theme of the deal (meeting...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.Place">
+            <summary>
+            Place for the meeting (deal...)
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.IsComplete">
+            <summary>
+            Indicates whether record was completed or not
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.RecordTypeId">
+            <summary>
+            Represent type of record 
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.NoteModel.ContactIds">
+            <summary>
+            Assigned people for current meeting
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.ContactCreateModel">
+            <summary>
+            Represent Contact model
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.ContactInformationRequestModel">
+            <summary>
+            Represent Information without Id of record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Request.NoteCreateModel">
+            <summary>
+            Represent NoteCreate model without id of record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.ContactInformationResponseModel">
+            <summary>
+            Information with id of entity
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.ContactInformationResponseModel.Id">
+            <summary>
+            Id of info record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.NoteCreateResponseModel">
+            <summary>
+            Represent Note model
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.NoteCreateResponseModel.Id">
+            <summary>
+            Id of record
+            </summary>
+        </member>
+        <member name="T:Notebook.DTO.Models.Response.ResponseContact">
+            <summary>
+            Contact model with Id
+            </summary>
+        </member>
+        <member name="P:Notebook.DTO.Models.Response.ResponseContact.Id">
+            <summary>
+            Id of contact
+            </summary>
+        </member>
+    </members>
+</doc>

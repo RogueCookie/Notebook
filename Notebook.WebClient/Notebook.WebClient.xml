@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Notebook.WebClient</name>
+    </assembly>
+    <members>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.GetAllContacts">
+            <summary>
+            Get all contacts
+            </summary>
+            <returns>All not deleted contacts</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.GetContact(System.Int64)">
+            <summary>
+            Get particular contact
+            </summary>
+            <param name="contactId">Id of the contact</param>
+            <returns>An ActionResult of type ContactCreateModel</returns>
+            <response code="200">Returns the requested contact</response>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.GetDetails(System.Int64)">
+            <summary>
+            Get details for particular contact
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>All contact information</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContact(Notebook.DTO.Models.Request.ContactCreateModel)">
+            <summary>
+            Add new contact
+            </summary>
+            <param name="model">New contact entity</param>
+            <returns>An ActionResult of type ContactCreateModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.CreateContactInformation(Notebook.DTO.Models.Request.ContactInformationRequestModel)">
+            <summary>
+            Add a new contact information
+            </summary>
+            <param name="model">New contact information entity</param>
+            <returns>An ActionResult of type ContactInformationModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.EditContact(Notebook.DTO.Models.Response.ResponseContact)">
+            <summary>
+            Update particular contact
+            </summary>
+            <param name="model">Entity for update</param>
+            <returns>An ActionResult of type ContactCreateModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.EditContactInfo(Notebook.DTO.Models.Response.ContactInformationResponseModel)">
+            <summary>
+            Edit contact information
+            </summary>
+            <param name="model">Entity which need to update</param>
+            <returns>An ActionResult of type ContactInformationModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.Remove(System.Int64)">
+            <summary>
+            Delete contact with all related information
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>Whether contact was successfully removed or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.ContactController.RemoveContactInformation(System.Int64)">
+            <summary>
+            Delete particular information about contact
+            </summary>
+            <param name="contactInfoId">Id of contact information</param>
+            <returns>Whether information was successfully removed or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.GetAllNotes(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Get all notes
+            </summary>
+            <param name="from">From date</param>
+            <param name="to">Till date</param>
+            <returns>All not completed and not deleted notes</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.CreateNote(Notebook.DTO.Models.Request.NoteCreateModel)">
+            <summary>
+            Add a new note
+            </summary>
+            <param name="model">Entity which will be added</param>
+            <returns>An ActionResult of type long</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.GetNote(System.Int64)">
+            <summary>
+            Get particular note by Id
+            </summary>
+            <param name="noteId">The id of note you want to get</param>
+            <returns>An ActionResult of type NoteModel</returns>
+            <response code="200">Returns the requested note</response>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.EditNote(Notebook.DTO.Models.Response.NoteCreateResponseModel)">
+            <summary>
+            Update particular note
+            </summary>
+            <param name="recordForUpdate">Entity which need to update</param>
+            <returns>An ActionResult of type NoteModel</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Controllers.NotebookController.MarkRecordAsCompleted(Notebook.DTO.Models.Response.NoteCreateResponseModel)">
+            <summary>
+            Modify completed status for record
+            </summary>
+            <param name="model">Entity for mark</param>
+            <returns>Model with refresh status</returns>
+        </member>
+        <member name="T:Notebook.WebClient.Enum.ModeGrouping">
+            <summary>
+            Filter for selecting records by time range
+            </summary>
+        </member>
+        <member name="F:Notebook.WebClient.Enum.ModeGrouping.Daily">
+            <summary>
+            Time range by particular day
+            </summary>
+        </member>
+        <member name="F:Notebook.WebClient.Enum.ModeGrouping.Weekly">
+            <summary>
+            Time range by particular week
+            </summary>
+        </member>
+        <member name="F:Notebook.WebClient.Enum.ModeGrouping.Monthly">
+            <summary>
+            Time range by particular month
+            </summary>
+        </member>
+        <member name="T:Notebook.WebClient.Extension.AdaptContactExtension">
+            <summary>
+            Helpers allow transfer entity to Model and back
+            </summary>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptContactExtension.AdaptToContactCreateModel(Notebook.Domain.Entity.Contact)">
+            <summary>
+            Adapt Contact entity to ContactCreateModel
+            </summary>
+            <param name="contact">Contact entity</param>
+            <returns>Adapted model</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptContactExtension.AdaptToAddNewContactModel(Notebook.Domain.Entity.Contact)">
+            <summary>
+            Adapt contact entity to AddNewContact model
+            </summary>
+            <param name="model">Contact entity</param>
+            <returns>Adapted model</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptContactExtension.AdaptToContact(Notebook.DTO.Models.Request.ContactCreateModel)">
+            <summary>
+            Adapt contactCreate model to entity
+            </summary>
+            <param name="model">New contactCreateModel</param>
+            <returns>Contact Entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptContactExtension.AdaptToContactInformationResponseModel(Notebook.Domain.Entity.ContactInformation)">
+            <summary>
+            Adapt information entity to ContactInformationResponse Model
+            </summary>
+            <param name="info">ContactInformation entity</param>
+            <returns>Adapt model</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptContactExtension.AdaptToContactInformationRequestModel(Notebook.Domain.Entity.ContactInformation)">
+            <summary>
+            Adapt information entity to ContactInformationRequest Model
+            </summary>
+            <param name="info">ContactInformation entity</param>
+            <returns>Adapt model</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptContactExtension.AdaptToContactInfo(Notebook.DTO.Models.Request.ContactInformationRequestModel)">
+            <summary>
+            Adapt information model to entity
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Notebook.WebClient.Extension.AdaptNoteExtension">
+            <summary>
+            Helpers allow transfer entities to Model and back
+            </summary>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptNoteExtension.AdaptToNoteCreateResponseModel(Notebook.Domain.Entity.Record)">
+            <summary>
+            Adapt record to NoteCreate model
+            </summary>
+            <param name="record">Record entity</param>
+            <returns>Adapted NoteCreate model</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptNoteExtension.AdaptToNoteCreateModel(Notebook.Domain.Entity.Record)">
+            <summary>
+            Adapt to NoteCreate model
+            </summary>
+            <param name="record">Record entity</param>
+            <returns></returns>
+        </member>
+        <member name="M:Notebook.WebClient.Extension.AdaptNoteExtension.AdaptToRecord(Notebook.DTO.Models.Request.NoteCreateModel)">
+            <summary>
+            Adapt to Record entity
+            </summary>
+            <param name="model">NoteCreate model</param>
+            <returns>Adapted entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.AddContactInformationAsync(Notebook.DTO.Models.Request.ContactInformationRequestModel)">
+            <summary>
+            Add contact new information about contact
+            </summary>
+            <param name="newContactInformation">New information entity about contact</param>
+            <returns>Id of contact to whom was added new information</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.AddBulkContactInformationAsync(System.Collections.Generic.IEnumerable{Notebook.DTO.Models.Request.ContactInformationRequestModel})">
+            <summary>
+            Add list of contact information
+            </summary>
+            <param name="newContactsInformation"></param>
+            <returns>Whether list of info added successfully or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.GetAllInfoForContactAsync(System.Int64)">
+            <summary>
+            Get all contact information for current contact
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>List of information for particular contact</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.GetCurrentContactInformationRequestAsync(System.Int64)">
+            <summary>
+            Get current record contact information
+            </summary>
+            <param name="contactInfoId">Id of contact information</param>
+            <returns>Contact Information entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.RemoveCurrentContactInformationAsync(System.Int64)">
+            <summary>
+            Remove particular contact information 
+            </summary>
+            <param name="contInfoId">Id of information record</param>
+            <returns>Whether the contact information deleted successfully</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.GetCurrentContactInformationResponseAsync(System.Int64)">
+            <summary>
+            Get contactInformationResponse model
+            </summary>
+            <param name="contactInfoId">Id of contact info</param>
+            <returns></returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactInformationService.UpdateContactInformation(Notebook.DTO.Models.Response.ContactInformationResponseModel)">
+            <summary>
+            Update information
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Notebook.WebClient.Services.ContactService">
+            <summary>
+            Manipulation with contact entities
+            </summary>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.AddContactAsync(Notebook.DTO.Models.Request.ContactCreateModel)">
+            <summary>
+            Add new Contact
+            </summary>
+            <param name="newContact">New contact</param>
+            <returns>Id of the new added contact entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetContactByIdAsync(System.Int64)">
+            <summary>
+            Get contact by particular Id
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>Contact entity with particular ID</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetContactWithIdAsync(System.Int64)">
+            <summary>
+            Get contact with particular Id
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>Contact entity with particular ID</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.GetAllContactsAsync">
+            <summary>
+            Get ordered contacts
+            </summary>
+            <returns>List of ordered contacts</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.RemoveContactAsync(System.Int64)">
+            <summary>
+            Remove contact with all correlate to him contact information
+            </summary>
+            <param name="contactId">Id of contact</param>
+            <returns>Whether the contact deleted successfully or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.ContactService.UpdateContact(Notebook.DTO.Models.Response.ResponseContact)">
+            <summary>
+            Update particular contact
+            </summary>
+            <param name="contact">Entity for updates</param>
+            <returns>Updated model</returns>
+        </member>
+        <member name="T:Notebook.WebClient.Services.NotebookService">
+            <summary>
+            Manipulation with records in notebook
+            </summary>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.AddRecordAsync(Notebook.DTO.Models.Request.NoteCreateModel)">
+            <summary>
+            Add new records in notebook
+            </summary>
+            <param name="newRecord">New record</param>
+            <returns>No object or value is returned by this method when it completes</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.GetAllNotDeletedRecordsAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Get all not deleted records
+            </summary>
+            <param name="from">Time range from current date</param>
+            <param name="to">Time range till current date</param>
+            <returns>List of not deleted records in some time range</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.GetRecordByIdAsync(System.Int64)">
+            <summary>
+            Get record with particular Id
+            </summary>
+            <param name="recordId">Id of record</param>
+            <returns>Record entity</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.MarkRecordAsCompletedAsync(System.Int64,System.Boolean)">
+            <summary>
+            Mark record as completed
+            </summary>
+            <param name="recordId">Id of record</param>
+            <param name="isCompleted">Indicates if the record is completed or not</param>
+            <returns>Whether the entity was successfully marked or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.DeletedRecordAsync(System.Int64)">
+            <summary>
+            Mark record as deleted
+            </summary>
+            <param name="recordId">Id of records</param>
+            <returns>Whether the entry was successfully deleted or not</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.UpdateRecordAsync(Notebook.DTO.Models.Response.NoteCreateResponseModel)">
+            <summary>
+            Update existing record
+            </summary>
+            <param name="record">Record for updating</param>
+            <returns>Updated record</returns>
+        </member>
+        <member name="M:Notebook.WebClient.Services.NotebookService.UpdateContactsForNoteAsync(System.Int64,System.Collections.Generic.ICollection{System.Int64})">
+            <summary>
+            Update list of contacts assigned to current note (meeting)
+            </summary>
+            <param name="noteId">Id of current notes</param>
+            <param name="contactIds">Note with new contacts</param>
+            <returns>Note with updated model</returns>
+        </member>
+    </members>
+</doc>
